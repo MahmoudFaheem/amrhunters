@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RESISTOME RESOURCES @ HOST-PATHOGEN NETWORK</title>
+    <style>
+        /* Fused Style Sheet Rules From header.php & index.php */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #FAF9F6;
+            padding-bottom: 140px; /* Fully clears custom fixed footer layout zone */
+        }
+
+        /* Dark Slate Header Banner */
+        .header {
+            position: relative;
+            background-color: #2C3539; 
+            color: #ffffff;
+            padding: 20px;
+            font-size: 12.8px;
+            text-align: center;
+        }
+
+        .header a {
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+        .logo img {
+            width: 400px;
+            height: auto;
+        }
+
+        /* Fixed Navigation Download Trigger Box Location */
+        .download-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1010;
+        }
+
+        /* Dropdown Component Base Styles */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1005;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        /* Isolated, Premium Styling for the Download Action Card Panel */
+        #dropdownContainer {
+            top: calc(100% + 8px);
+            right: 0;
+            background-color: #ffffff;
+            border: 1px solid #dcdcdc;
+            border-radius: 8px;
+            padding: 16px;
+            width: 260px;
+            max-height: none;        /* Removes original squishing framework constraints */
+            overflow: visible;       /* Erases messy inner container layout scrollbars */
+            box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.15);
+            display: none;
+        }
+
+        #dropdownContainer label {
+            font-family: Arial, sans-serif;
+            font-size: 13px;
+            font-weight: bold;
+            color: #4A5568;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            display: block;
+            text-align: left;
+        }
+
+        #dropdownContainer select {
+            padding: 10px;
+            margin-bottom: 14px;
+            border-radius: 6px;
+            border: 1px solid #cbd5e1;
+            width: 100%;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            color: #333333;
+            background-color: #f8fafc;
+            cursor: pointer;
+            box-sizing: border-box;
+        }
+
+        #dropdownContainer select:focus {
+            outline: none;
+            border-color: #4CAF50;
+        }
+
+        #dropdownContainer #downloadLink {
+            padding: 12px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 6px;
+            font-family: Arial, sans-serif;
+            font-weight: bold;
+            font-size: 14px;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+            box-sizing: border-box;
+            transition: background-color 0.2s ease;
+        }
+
+        #dropdownContainer #downloadLink:hover {
+            background-color: #43a047;
+        }
+
+        /* Autocomplete Results Dropdown Properties */
+        #autocomplete-dropdown {
+            width: 60%;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 100%;
+            max-height: 150px;
+            overflow-y: auto;
+            padding: 5px;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 10px 15px;
+            text-decoration: none;
+            display: block;
+            text-align: left;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .show {
+            display: block !important;
+        }
+
+        /* Search Layout Container Frame */
+        .search-container {
+            position: relative;
+            text-align: center;
+            margin-top: 20px;
+            z-index: 1000;
+        }
+
+        .search-container input[type="text"] {
+            padding: 10px;
+            width: 60%;
+            font-size: 16px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        .search-container input[type="submit"] {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-left: 10px;
+        }
+
+        .search-container input[type="submit"]:hover {
+            background-color: #4CAF50;
+        }
+
+        /* BLAST Sequence Interface Dashboard Workspace */
+        .upload-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .upload-container textarea {
+            padding: 10px;
+            width: 60%;
+            font-size: 16px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+            font-family: monospace;
+            box-sizing: border-box;
+        }
+
+        /* Default Layout Profile Cards */
+        .content {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            text-align: justify;
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+        }
+
+        .overview-section {
+            margin-bottom: 30px;
+        }
+
+        .overview-content {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .panel-heading h2 {
+            font-size: 24px;
+            margin: 0;
+        }
+
+        .panel-heading p {
+            font-size: 16px;
+            margin-top: 5px;
+        }
+
+        .action-buttons {
+            margin-top: 20px;
+        }
+
+        .action-button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-right: 10px;
+            display: inline-block;
+            text-decoration: none;
+            font-family: Arial, sans-serif;
+        }
+
+        .action-button:hover {
+            background-color: #0B5BD7;
+        }
+
+        /* Native App Subpage Interface Navigation Controller Link */
+        .back-button {
+            background-color: #2C3539;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            font-family: Arial, sans-serif;
+            transition: background-color 0.2s;
+        }
+
+        .back-button:hover {
+            background-color: #4CAF50;
+        }
+
+        /* Split Result Grid Frame Verbatim From search.php rules */
+        .search-wrapper-layout {
+            max-width: 900px; 
+            margin: 30px auto; 
+            display: flex; 
+            justify-content: space-between;
+            padding: 0 10px;
+        }
+
+        .results-left-column {
+            width: 100%; 
+            margin-right: 20px;
+        }
+
+        .results-left-column.with-sidebar {
+            width: calc(100% - 240px);
+        }
+
+        .sidebar-right-column {
+            width: 200px;
+            box-sizing: border-box;
+        }
+
+        .result-card {
+            border: 1px solid #ccc; 
+            border-radius: 8px; 
+            padding: 20px; 
+            margin-bottom: 20px; 
+            background-color: #f2f2f2; 
+            overflow-x: auto; 
+            font-family: "Times New Roman", Times, serif; 
+            font-size: 16px;
+            text-align: left;
+        }
+
+        .sidebar-box {
+            border: 1px solid #ccc; 
+            border-radius: 8px; 
+            padding: 20px; 
+            background-color: #f2f2f2; 
+            overflow-x: auto; 
+            font-family: Arial, sans-serif; 
+            font-size: 13px;
+            width: 100%;
+            box-sizing: border-box;
+            text-align: left;
+        }
+
+        .sidebar-box a {
+            color: #0066cc;
+            text-decoration: none;
+            display: block;
+            margin-top: 5px;
+        }
+
+        .sidebar-box a:hover {
+            text-decoration: underline;
+        }
+
+        /* Standardized Site Dark Footer */
+        .footer {
+            background-color: #333333;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+        .footer p {
+            font-size: 16px;
+            margin: 0;
+        }
+
+        .footer a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        .status-msg {
+            text-align: center;
+            color: #2C3539;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <a href="#" onclick="resetToHome(event)">
+            <img alt="AMR Logo" src="images/AMR_logo.png" style="width: 400px;">
+            <h1 style="line-height: 0.35; color: white; font-weight: normal;">RESISTOME RESOURCES @ HOST-PATHOGEN NETWORK</h1>
+            <h2 style="text-align: center; line-height: 1; color: white; font-weight: normal;">A comprehensive repository of antibiotic resistance genes and their variants</h2>
+            <h3 style="text-align: center; line-height: 0.05; color: white; font-weight: normal;"><span style="color: white; font-weight: normal;">an</span> <a href="http://egybio.net" style="color: white; font-weight: normal;"><u>Egybio</u></a> project</h3>
+        </a>
+
+        <div class="download-button">
+            <button id="toggleDownloadBtn" class="action-button" style="font-size: 14px;">Download FASTA Sequences</button>
+            <div id="dropdownContainer" class="dropdown-content">
+                <label for="file">Select File:</label>
+                <select name="file" id="file">
+                    <option value="AMRgenes.fasta">AMRgenes.fasta</option>
+                    <option value="AMRproteins.fasta">AMRproteins.fasta</option>
+                </select>
+                <a id="downloadLink" href="#">Download</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="search-container">
+        <form id="searchForm" onsubmit="handleSearchExecution(event)">
+            <input type="text" id="searchQuery" autocomplete="off" placeholder="Search... (gene name, protein ID, pathogen)" onkeyup="processAutocompleteDropdown()">
+            <div id="autocomplete-dropdown" class="dropdown-content"></div>
+            <input type="submit" value="Search">
+        </form>
+        <div id="index-tracker" class="status-msg">Indexing data matrix profile...</div>
+    </div>
+
+    <div id="blast-container-view" class="upload-container">
+        <form id="uploadForm" onsubmit="runSequenceBlast(event)">
+            <input type="file" name="file_to_upload" id="file_to_upload" style="margin-bottom: 10px;" onchange="handleFileFastaUpload(event)">
+            <br>
+            <textarea id="fastaInput" name="fastaInput" rows="10" cols="50" placeholder="Paste or type gene sequences in FASTA format here"></textarea>
+            <br>
+            <button id="uploadButton" type="submit" class="action-button">Run BLAST</button>
+        </form>
+    </div>
+
+    <div id="search-layout-view" class="search-wrapper-layout" style="display: none;">
+        <div class="results-left-column" id="left-column-wrapper">
+            <div id="back-button-zone"></div>
+            <div id="left-results-pane"></div>
+        </div>
+        <div id="right-sidebar-pane" class="sidebar-right-column" style="display: none;"></div>
+    </div>
+
+    <div id="default-info-view" class="content">
+        <div class="overview-section">
+            <h2>AMR Hunters Overview</h2>
+            <div class="overview-content">
+                <p>Welcome to the AMR hunters database! AMR hunters serves as a comprehensive repository housing antimicrobial resistance genes and their variants in bacteria. Its primary goal is to provide swift access to essential information crucial for understanding and addressing antimicrobial resistance. Within its curated collection, users can explore insights into amino acid changes leading to mutant variants, protein ID, gene names and their variants, antibiotic resistance profiles, gene and protein sequences in FASTA format, perform BLAST searches, access PubMed Identifiers (PMIDs), and more.</p>
+            </div>
+        </div>
+        
+        <div class="panel-heading">
+            <h2>AMR Hunters Sections</h2>
+            <p><em>Beta-lactamase</em> &amp; <em>Chloramphenicol acetyltransferase</em> resistance genes</p>
+        </div>
+
+        <div class="action-buttons">
+            <button onclick="triggerQuickSection('Beta-lactamase')" class="action-button" style="font-size: 14px;">Beta-lactamase</button>
+            <button onclick="triggerQuickSection('Chloramphenicol acetyltransferase')" class="action-button" style="font-size: 14px;">Chloramphenicol acetyltransferase</button>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>&copy; <span id="current-year"></span> AMR HUNTERS: A comprehensive repository for antimicrobial resistance genes | All rights reserved | Designed by <a href="http://egybio.net" target="_blank">Egybio</a></p>
+    </div>
+
+    <script>
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        let matrixDataset = [];
+        let sheetHeadings = [];
+
+        async function bootAppPipeline() {
+            const indexTracker = document.getElementById('index-tracker');
+            try {
+                const response = await fetch('AMR_Gene_Variants.csv');
+                if (!response.ok) throw new Error("Target CSV reference file unreachable.");
+                const rawDataContent = await response.text();
+                
+                compileCSVDataset(rawDataContent);
+                indexTracker.textContent = ""; 
+            } catch (err) {
+                indexTracker.textContent = "Data loading failed. Check that AMR_Gene_Variants.csv is present in this path.";
+                console.error(err);
+            }
+        }
+
+        function compileCSVDataset(text) {
+            let entries = [];
+            let workingField = [""];
+            let insideQuotes = false;
+
+            for (let i = 0; i < text.length; i++) {
+                let currentSymbol = text[i];
+                let aheadSymbol = text[i+1];
+                if (currentSymbol === '"') {
+                    if (insideQuotes && aheadSymbol === '"') { workingField[workingField.length - 1] += '"'; i++; } 
+                    else { insideQuotes = !insideQuotes; }
+                } else if (currentSymbol === ',' && !insideQuotes) {
+                    workingField.push('');
+                } else if ((currentSymbol === '\r' || currentSymbol === '\n') && !insideQuotes) {
+                    if (currentSymbol === '\r' && aheadSymbol === '\n') { i++; }
+                    entries.push(workingField);
+                    workingField = [''];
+                } else {
+                    workingField[workingField.length - 1] += currentSymbol;
+                }
+            }
+            if (workingField.length > 1 || workingField[0] !== '') entries.push(workingField);
+
+            if(entries.length === 0) return;
+            sheetHeadings = entries[0].map(h => h.trim().replace(/[\n\r]/g, ' ').replace(/\s+/g, ' '));
+
+            matrixDataset = entries.slice(1).map(line => {
+                let entryRecord = {};
+                sheetHeadings.forEach((heading, position) => {
+                    let textSlice = line[position] ? line[position].trim() : "";
+                    entryRecord[heading] = textSlice.replace(/\r$/, "");
+                });
+                return entryRecord;
+            }).filter(item => Object.values(item).some(val => val !== ""));
+        }
+
+        function processAutocompleteDropdown() {
+            const rawSearchQuery = document.getElementById('searchQuery').value.trim().toLowerCase();
+            const autocompleteContainer = document.getElementById('autocomplete-dropdown');
+            autocompleteContainer.innerHTML = '';
+
+            if (rawSearchQuery.length < 1) {
+                autocompleteContainer.classList.remove('show');
+                return;
+            }
+
+            let collectedMatches = new Set();
+            matrixDataset.forEach(row => {
+                ['Organism', 'Variant Name/ Symbol', 'Protein ID', 'Enzyme', 'Pathogen'].forEach(fieldKey => {
+                    if (row[fieldKey] && row[fieldKey].toLowerCase().includes(rawSearchQuery)) {
+                        collectedMatches.add(row[fieldKey]);
+                    }
+                });
+            });
+
+            const topMatchesSlice = Array.from(collectedMatches).slice(0, 12);
+
+            topMatchesSlice.forEach(matchedString => {
+                const selectionLink = document.createElement('a');
+                selectionLink.textContent = matchedString;
+                selectionLink.href = '#';
+                selectionLink.onclick = function(event) {
+                    event.preventDefault();
+                    document.getElementById('searchQuery').value = matchedString;
+                    autocompleteContainer.classList.remove('show');
+                    executeDisplayRender(matchedString);
+                };
+                autocompleteContainer.appendChild(selectionLink);
+            });
+
+            if (topMatchesSlice.length > 0) {
+                autocompleteContainer.classList.add('show');
+            } else {
+                autocompleteContainer.classList.remove('show');
+            }
+        }
+
+        function handleSearchExecution(event) {
+            event.preventDefault();
+            const finalizedInputText = document.getElementById('searchQuery').value.trim();
+            document.getElementById('autocomplete-dropdown').classList.remove('show');
+            executeDisplayRender(finalizedInputText);
+            return false;
+        }
+
+        function triggerQuickSection(enzymeGroup) {
+            document.getElementById('searchQuery').value = enzymeGroup;
+            executeDisplayRender(enzymeGroup);
+        }
+
+        function resetToHome(event) {
+            if (event) event.preventDefault();
+            document.getElementById('searchQuery').value = '';
+            document.getElementById('search-layout-view').style.display = 'none';
+            document.getElementById('blast-container-view').style.display = 'block';
+            document.getElementById('default-info-view').style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function executeDisplayRender(searchKeyString) {
+            const mainLayoutWindow = document.getElementById('search-layout-view');
+            const leftPaneResults = document.getElementById('left-results-pane');
+            const rightSidebar = document.getElementById('right-sidebar-pane');
+            const blastContainer = document.getElementById('blast-container-view');
+            const backButtonZone = document.getElementById('back-button-zone');
+            const leftColumnWrapper = document.getElementById('left-column-wrapper');
+            
+            leftPaneResults.innerHTML = '';
+            rightSidebar.innerHTML = '';
+            backButtonZone.innerHTML = '';
+            rightSidebar.style.display = 'none';
+            leftColumnWrapper.className = 'results-left-column';
+
+            if (!searchKeyString) {
+                resetToHome();
+                return;
+            }
+
+            document.getElementById('default-info-view').style.display = 'none';
+            blastContainer.style.display = 'none'; 
+            mainLayoutWindow.style.display = 'flex';
+
+            backButtonZone.innerHTML = `<button class="back-button" onclick="resetToHome(event)">← Go Back to Overview</button>`;
+
+            const operationalQuery = searchKeyString.toLowerCase();
+            
+            const matchesResultPool = matrixDataset.filter(row => {
+                const targetOrganism = row["Organism"] || "";
+                const targetVariant = row["Variant Name/ Symbol"] || "";
+                const targetProtein = row["Protein ID"] || "";
+                const targetEnzyme = row["Enzyme"] || "";
+                return targetOrganism.toLowerCase().includes(operationalQuery) ||
+                       targetVariant.toLowerCase().includes(operationalQuery) ||
+                       targetProtein.toLowerCase().includes(operationalQuery) ||
+                       targetEnzyme.toLowerCase().includes(operationalQuery);
+            });
+
+            if (matchesResultPool.length === 0) {
+                leftPaneResults.innerHTML = `<div style='font-family: Arial; font-size: 16px; margin-top: 20px;'>No results found for '${searchKeyString}' in columns 'Organism', 'Variant Name/ Symbol', 'Protein ID', or 'Enzyme'.</div>`;
+                return;
+            }
+
+            let resultsHTMLBlock = '';
+            let assignedTaxID = '';
+
+            matchesResultPool.forEach((row, individualIdx) => {
+                if (row["TaxID"]) { assignedTaxID = row["TaxID"]; }
+
+                resultsHTMLBlock += `<div class="result-card">`;
+
+                sheetHeadings.forEach(headingKey => {
+                    if (headingKey === "PhotoFilename") return; 
+
+                    let coreValue = row[headingKey] || '';
+                    let modifiedHeadingDisplay = headingKey.replace(/:$/, ''); 
+
+                    if (displayHeadingIncludesFASTA(modifiedHeadingDisplay)) {
+                        const sequenceElementId = `seq-block-${individualIdx}-${modifiedHeadingDisplay.toLowerCase().replace(/\s+/g, '-')}`;
+                        
+                        coreValue = `
+                            <div style='display: inline-block; border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; max-width: 100%; width: 100%; box-sizing: border-box;'>
+                                <pre id='${sequenceElementId}' style='white-space: pre-wrap; font-family: monospace; font-size: 14px; overflow-y: auto; max-height: 200px; word-wrap: break-word; margin: 0 0 10px 0;'>${coreValue}</pre>
+                                <button type='button' onclick='CopyToClipboard("${sequenceElementId}")' style='font-weight: bold; font-family: Arial; color: #204060; background-color: #add8e6; padding: 8px 12px; border-radius: 5px; border: none; cursor: pointer;'>COPY</button>
+                            </div>
+                        `;
+                    }
+                    else if (isTaxonomicField(modifiedHeadingDisplay)) {
+                        coreValue = `<em style='font-family: "Times New Roman", Times, serif; font-size: 16px;'>${coreValue}</em>`;
+                    }
+                    else if (modifiedHeadingDisplay === 'Protein ID') {
+                        coreValue = `<a href="http://www.ncbi.nlm.nih.gov/protein/${coreValue}" target="_blank" style='font-family: "Times New Roman", Times, serif; font-size: 16px; color: #0066cc;'>${coreValue}</a>`;
+                    }
+                    else if (modifiedHeadingDisplay === 'Reference (PMID)') {
+                        coreValue = `<a href="https://pubmed.ncbi.nlm.nih.gov/${coreValue}" target="_blank" style='font-family: "Times New Roman", Times, serif; font-size: 16px; color: #0066cc;'>${coreValue}</a>`;
+                    }
+
+                    resultsHTMLBlock += `<div style='margin-bottom: 4px;'><strong>${modifiedHeadingDisplay}:</strong> ${coreValue}</div>`;
+                });
+
+                if (row["Protein ID"]) {
+                    const ncbiBlastTarget = `https://blast.ncbi.nlm.nih.gov/Blast.cgi?PROGRAM=blastp&PAGE_TYPE=BlastSearch&SHOW_DEFAULTS=on&QUERY=${encodeURIComponent(row["Protein ID"])}`;
+                    const uniProtTarget = `https://www.uniprot.org/uniprotkb?query=${encodeURIComponent(row["Protein ID"])}`;
+                    
+                    resultsHTMLBlock += `
+                        <div style="margin-top: 20px; text-align: left; display: inline-block; margin-right: 10px;">
+                            <a href="${ncbiBlastTarget}" target="_blank" style="font-weight: bold; font-family: Arial; color: #204060; text-decoration: none; background-color: #add8e6; padding: 8px 12px; border-radius: 5px; font-size: 16px;">BLAST</a>
+                        </div>
+                        <div style="margin-top: 20px; text-align: left; display: inline-block; margin-right: 10px;">
+                            <a href="${uniProtTarget}" target="_blank" style="font-weight: bold; font-family: Arial; color: #204060; text-decoration: none; background-color: #add8e6; padding: 8px 12px; border-radius: 5px; font-size: 16px;">UniProtDB</a>
+                        </div>
+                    `;
+                }
+
+                if (row["Gene Sequence (FASTAFormat)"]) {
+                    const primer3TargetUrl = `https://primer3plus.com/cgi-bin/dev/primer3plus.cgi?sequence=${encodeURIComponent(row["Gene Sequence (FASTAFormat)"])}`;
+                    resultsHTMLBlock += `
+                        <div style="margin-top: 20px; text-align: left; display: inline-block;">
+                            <a href="${primer3TargetUrl}" target="_blank" style="font-weight: bold; font-family: Arial; color: #204060; text-decoration: none; background-color: #add8e6; padding: 8px 12px; border-radius: 5px; font-size: 16px;">Primer3Plus</a>
+                        </div>
+                    `;
+                }
+
+                resultsHTMLBlock += `</div>`;
+            });
+
+            leftPaneResults.innerHTML = resultsHTMLBlock;
+
+            if (assignedTaxID) {
+                let relatedVariantsList = new Set();
+                matrixDataset.forEach(r => {
+                    if (r["TaxID"] === assignedTaxID && r["Variant Name/ Symbol"]) {
+                        relatedVariantsList.add(r["Variant Name/ Symbol"]);
+                    }
+                });
+
+                if (relatedVariantsList.size > 0) {
+                    leftColumnWrapper.className = 'results-left-column with-sidebar';
+                    rightSidebar.style.display = 'block';
+
+                    let sidebarHTML = `<div class="sidebar-box"><strong>Related genes:</strong>`;
+                    relatedVariantsList.forEach(variantName => {
+                        sidebarHTML += `<a href="#" onclick="event.preventDefault(); document.getElementById('searchQuery').value='${variantName}'; executeDisplayRender('${variantName}');">${variantName}</a>`;
+                    });
+                    sidebarHTML += `</div>`;
+                    rightSidebar.innerHTML = sidebarHTML;
+                }
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function displayHeadingIncludesFASTA(headingStr) {
+            return headingStr === "Protein Sequence (FASTAFormat)" || 
+                   headingStr === "Gene Sequence (FASTAFormat)" ||
+                   headingStr === "Protein Sequence (FASTA Format)" || 
+                   headingStr === "Gene Sequence (FASTA Format)";
+        }
+
+        function isTaxonomicField(headingStr) {
+            return headingStr === "Organism" || 
+                   headingStr === "Organism (Genus)" || 
+                   headingStr === "Organism (Species)" || 
+                   headingStr === "Subspecies" || 
+                   headingStr === "Enzyme";
+        }
+
+        function CopyToClipboard(elementId) {
+            const textToCopyNode = document.getElementById(elementId);
+            const selectionRange = document.createRange();
+            selectionRange.selectNode(textToCopyNode);
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(selectionRange);
+            document.execCommand("copy");
+            window.getSelection().removeAllRanges();
+
+            const alertModalOverlay = document.createElement('div');
+            alertModalOverlay.innerHTML = 'Copied to clipboard!';
+            alertModalOverlay.style.cssText = 'position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); padding: 10px 20px; background-color: rgba(0, 0, 0, 0.7); color: #fff; font-family: Arial; font-size: 16px; border-radius: 5px; z-index: 9999;';
+            document.body.appendChild(alertModalOverlay);
+            setTimeout(function () {
+                alertModalOverlay.parentNode.removeChild(alertModalOverlay);
+            }, 500);
+        }
+
+        function handleFileFastaUpload(event) {
+            const uploadedFileRef = event.target.files[0];
+            if (!uploadedFileRef) return;
+            const fileReader = new FileReader();
+            fileReader.onload = function(e) {
+                document.getElementById('fastaInput').value = e.target.result;
+            };
+            fileReader.readAsText(uploadedFileRef);
+        }
+
+        function runSequenceBlast(event) {
+            event.preventDefault();
+            const sequenceTextPayload = document.getElementById('fastaInput').value.trim();
+            if(!sequenceTextPayload) {
+                alert("Please paste or upload gene sequences in FASTA format here.");
+                return;
+            }
+            const forwardBlastEngineUrl = `https://blast.ncbi.nlm.nih.gov/Blast.cgi?PROGRAM=blastn&PAGE_TYPE=BlastSearch&QUERY=${encodeURIComponent(sequenceTextPayload)}`;
+            window.open(forwardBlastEngineUrl, '_blank');
+        }
+
+        // FIXED: Advanced target verification map to preserve open configurations across native elements
+        document.addEventListener('click', function(event) {
+            const toggleBtn = document.getElementById('toggleDownloadBtn');
+            const downloadContainer = document.getElementById('dropdownContainer');
+            const searchInput = document.getElementById('searchQuery');
+            const autocompleteDropdown = document.getElementById('autocomplete-dropdown');
+
+            // 1. Evaluate Download UI Toggle Action Parameters
+            if (event.target === toggleBtn) {
+                event.preventDefault();
+                const isDisplayed = downloadContainer.style.display === 'block';
+                downloadContainer.style.display = isDisplayed ? 'none' : 'block';
+                return;
+            }
+
+            // 2. Safeguard Download Card Boundaries (Keeps card open during list selections)
+            if (downloadContainer.style.display === 'block') {
+                if (downloadContainer.contains(event.target) || event.target.tagName === 'OPTION' || event.target.closest('#dropdownContainer')) {
+                    return; // Ignore the click event and keep the menu open
+                } else {
+                    downloadContainer.style.display = 'none'; // Safely close when clicking entirely outside
+                }
+            }
+
+            // 3. Dismiss query auto-suggestion list overlay
+            if (autocompleteDropdown.classList.contains('show') && event.target !== searchInput) {
+                autocompleteDropdown.classList.remove('show');
+            }
+        });
+
+        document.getElementById('downloadLink').addEventListener('click', function(event) {
+            event.preventDefault();
+            const selectedFileTarget = document.getElementById('file').value;
+            const downloadTriggerNode = document.createElement('a');
+            downloadTriggerNode.setAttribute('href', selectedFileTarget);
+            downloadTriggerNode.setAttribute('download', selectedFileTarget);
+            document.body.appendChild(downloadTriggerNode);
+            downloadTriggerNode.click();
+            document.body.removeChild(downloadTriggerNode);
+        });
+
+        window.addEventListener('DOMContentLoaded', bootAppPipeline);
+    </script>
+</body>
+</html>
