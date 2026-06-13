@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RESISTOME RESOURCES @ HOST-PATHOGEN NETWORK</title>
     <style>
-        /* Fused Style Sheet Rules From header.php & index.php */
+        /* Fused Styles from header.php, index.php, search.php and list.php */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -53,7 +53,7 @@
             box-sizing: border-box;
         }
 
-        /* Isolated, Premium Styling for the Download Action Card Panel */
+        /* Premium Styling for the Download Action Panel */
         #dropdownContainer {
             top: calc(100% + 8px);
             right: 0;
@@ -62,8 +62,8 @@
             border-radius: 8px;
             padding: 16px;
             width: 260px;
-            max-height: none;        /* Removes original squishing framework constraints */
-            overflow: visible;       /* Erases messy inner container layout scrollbars */
+            max-height: none;
+            overflow: visible;
             box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.15);
             display: none;
         }
@@ -246,7 +246,7 @@
             background-color: #0B5BD7;
         }
 
-        /* Native App Subpage Interface Navigation Controller Link */
+        /* Native Navigation Back Controller Link */
         .back-button {
             background-color: #2C3539;
             color: white;
@@ -322,6 +322,64 @@
 
         .sidebar-box a:hover {
             text-decoration: underline;
+        }
+
+        /* Unified Matrix Grid System Styles from list.php layout */
+        .list-view-wrapper {
+            max-width: 850px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        .group-container {
+            margin: 10px 0 20px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            background-color: #ffffff;
+        }
+
+        .group-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 16px;
+            color: #2C3539;
+            border-bottom: 2px solid #f2f2f2;
+            padding-bottom: 5px;
+        }
+
+        .variants-container {
+            display: flex; 
+            flex-wrap: wrap; 
+            justify-content: flex-start; 
+        }
+
+        .variant-box {
+            background-color: #f2f2f2;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 5px; 
+            margin: 5px;
+            cursor: pointer;
+            width: 120px; 
+            height: 40px; 
+            text-align: center;
+            font-size: 14px;
+            display: flex;
+            align-items: center; 
+            justify-content: center; 
+            box-sizing: border-box;
+            transition: background-color 0.2s;
+        }
+
+        .variant-box:hover {
+            background-color: #e0e0e0;
+        }
+
+        .clearfix::after {
+            content: "";
+            display: table;
+            clear: both;
         }
 
         /* Standardized Site Dark Footer */
@@ -401,6 +459,12 @@
         </form>
     </div>
 
+    <div id="list-view-container" class="list-view-wrapper clearfix" style="display: none;">
+        <button class="back-button" onclick="resetToHome(event)">&larr; Go Back to Overview</button>
+        <h1 id="list-view-title" style="font-size: 28px; color: #2C3539; margin-bottom: 20px;">Variants</h1>
+        <div id="list-view-content" class="variants-container"></div>
+    </div>
+
     <div id="search-layout-view" class="search-wrapper-layout" style="display: none;">
         <div class="results-left-column" id="left-column-wrapper">
             <div id="back-button-zone"></div>
@@ -429,7 +493,7 @@
     </div>
 
     <div class="footer">
-        <p>&copy; <span id="current-year"></span> AMR HUNTERS: A comprehensive repository for antimicrobial resistance genes | All rights reserved | Designed by <a href="http://egybio.net" target="_blank">Egybio</a></p>
+        <p>&copy; <span id="current-year"></span> AMR HUNTERS | All rights reserved | Designed by <a href="http://egybio.net" target="_blank">Egybio</a></p>
     </div>
 
     <script>
@@ -538,17 +602,92 @@
             return false;
         }
 
-        function triggerQuickSection(enzymeGroup) {
-            document.getElementById('searchQuery').value = enzymeGroup;
-            executeDisplayRender(enzymeGroup);
-        }
-
         function resetToHome(event) {
             if (event) event.preventDefault();
             document.getElementById('searchQuery').value = '';
             document.getElementById('search-layout-view').style.display = 'none';
+            document.getElementById('list-view-container').style.display = 'none';
             document.getElementById('blast-container-view').style.display = 'block';
             document.getElementById('default-info-view').style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // REPLICATES list.php DATA MATRIX GROUPING RULES
+        function triggerQuickSection(enzymeGroup) {
+            const listViewWindow = document.getElementById('list-view-container');
+            const listViewTitle = document.getElementById('list-view-title');
+            const listViewContent = document.getElementById('list-view-content');
+            
+            // Hide alternative viewport layers
+            document.getElementById('default-info-view').style.display = 'none';
+            document.getElementById('blast-container-view').style.display = 'none';
+            document.getElementById('search-layout-view').style.display = 'none';
+            
+            listViewContent.innerHTML = '';
+            listViewWindow.style.display = 'block';
+            listViewTitle.textContent = "Variants for " + enzymeGroup;
+
+            // Extract variants matching chosen enzyme criteria
+            let matchingVariantsSet = new Set();
+            matrixDataset.forEach(row => {
+                if (row["Enzyme"] === enzymeGroup && row["Variant Name/ Symbol"]) {
+                    matchingVariantsSet.add(row["Variant Name/ Symbol"]);
+                }
+            });
+
+            let uniqueVariantsList = Array.from(matchingVariantsSet).sort();
+
+            if (enzymeGroup === "Beta-lactamase") {
+                // Group by prefix rule from list.php
+                let structuralGroups = {};
+                uniqueVariantsList.forEach(variant => {
+                    let groupKey = variant.startsWith("CAR") ? "CARB" : variant.substring(0, 3);
+                    if (!structuralGroups[groupKey]) {
+                        structuralGroups[groupKey] = [];
+                    }
+                    structuralGroups[groupKey].push(variant);
+                });
+
+                // Render each group container card block
+                Object.keys(structuralGroups).forEach(groupKey => {
+                    const groupCard = document.createElement('div');
+                    groupCard.className = 'group-container';
+                    groupCard.innerHTML = `<div class="group-title">${groupKey}</div>`;
+                    
+                    const boxesContainer = document.createElement('div');
+                    boxesContainer.className = 'variants-container';
+                    
+                    structuralGroups[groupKey].forEach(variant => {
+                        const box = document.createElement('div');
+                        box.className = 'variant-box';
+                        box.textContent = variant;
+                        box.onclick = () => executeDisplayRender(variant);
+                        boxesContainer.appendChild(box);
+                    });
+                    
+                    groupCard.appendChild(boxesContainer);
+                    listViewContent.appendChild(groupCard);
+                });
+            } else {
+                // Non beta-lactamase fallback render single flat panel container card matching list.php layout choices
+                const flatGroupCard = document.createElement('div');
+                flatGroupCard.className = 'group-container';
+                flatGroupCard.innerHTML = `<div class="group-title">Variants</div>`;
+                
+                const boxesContainer = document.createElement('div');
+                boxesContainer.className = 'variants-container';
+                
+                uniqueVariantsList.forEach(variant => {
+                    const box = document.createElement('div');
+                    box.className = 'variant-box';
+                    box.textContent = variant;
+                    box.onclick = () => executeDisplayRender(variant);
+                    boxesContainer.appendChild(box);
+                });
+                
+                flatGroupCard.appendChild(boxesContainer);
+                listViewContent.appendChild(flatGroupCard);
+            }
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
@@ -572,10 +711,11 @@
             }
 
             document.getElementById('default-info-view').style.display = 'none';
+            document.getElementById('list-view-container').style.display = 'none';
             blastContainer.style.display = 'none'; 
             mainLayoutWindow.style.display = 'flex';
 
-            backButtonZone.innerHTML = `<button class="back-button" onclick="resetToHome(event)">← Go Back to Overview</button>`;
+            backButtonZone.innerHTML = `<button class="back-button" onclick="resetToHome(event)">&larr; Go Back to Overview</button>`;
 
             const operationalQuery = searchKeyString.toLowerCase();
             
@@ -612,24 +752,27 @@
                     if (displayHeadingIncludesFASTA(modifiedHeadingDisplay)) {
                         const sequenceElementId = `seq-block-${individualIdx}-${modifiedHeadingDisplay.toLowerCase().replace(/\s+/g, '-')}`;
                         
-                        coreValue = `
-                            <div style='display: inline-block; border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; max-width: 100%; width: 100%; box-sizing: border-box;'>
-                                <pre id='${sequenceElementId}' style='white-space: pre-wrap; font-family: monospace; font-size: 14px; overflow-y: auto; max-height: 200px; word-wrap: break-word; margin: 0 0 10px 0;'>${coreValue}</pre>
-                                <button type='button' onclick='CopyToClipboard("${sequenceElementId}")' style='font-weight: bold; font-family: Arial; color: #204060; background-color: #add8e6; padding: 8px 12px; border-radius: 5px; border: none; cursor: pointer;'>COPY</button>
+                        resultsHTMLBlock += `
+                            <div style='margin-bottom: 4px;'><strong>${modifiedHeadingDisplay}:</strong>
+                                <div style='display: inline-block; border: 1px solid #ccc; padding: 10px; margin-top: 5px; margin-bottom: 10px; max-width: 100%; width: 100%; box-sizing: border-box; background-color: #fff;'>
+                                    <pre id='${sequenceElementId}' style='white-space: pre-wrap; font-family: monospace; font-size: 14px; overflow-y: auto; max-height: 200px; word-wrap: break-word; margin: 0 0 10px 0; width: 100%; max-width: 850px;'>${coreValue}</pre>
+                                    <button type='button' onclick='CopyToClipboard("${sequenceElementId}")' style='font-weight: bold; font-family: Arial; color: #204060; background-color: #add8e6; padding: 8px 12px; border-radius: 5px; border: none; cursor: pointer;'>COPY</button>
+                                </div>
                             </div>
                         `;
                     }
-                    else if (isTaxonomicField(modifiedHeadingDisplay)) {
-                        coreValue = `<em style='font-family: "Times New Roman", Times, serif; font-size: 16px;'>${coreValue}</em>`;
+                    else {
+                        if (isTaxonomicField(modifiedHeadingDisplay)) {
+                            coreValue = `<em style='font-family: "Times New Roman", Times, serif; font-size: 16px;'>${coreValue}</em>`;
+                        }
+                        else if (modifiedHeadingDisplay === 'Protein ID') {
+                            coreValue = `<a href="http://www.ncbi.nlm.nih.gov/protein/${coreValue}" target="_blank" style='font-family: "Times New Roman", Times, serif; font-size: 16px; color: #0066cc;'>${coreValue}</a>`;
+                        }
+                        else if (modifiedHeadingDisplay === 'Reference (PMID)') {
+                            coreValue = `<a href="https://pubmed.ncbi.nlm.nih.gov/${coreValue}" target="_blank" style='font-family: "Times New Roman", Times, serif; font-size: 16px; color: #0066cc;'>${coreValue}</a>`;
+                        }
+                        resultsHTMLBlock += `<div style='margin-bottom: 4px;'><strong>${modifiedHeadingDisplay}:</strong> ${coreValue}</div>`;
                     }
-                    else if (modifiedHeadingDisplay === 'Protein ID') {
-                        coreValue = `<a href="http://www.ncbi.nlm.nih.gov/protein/${coreValue}" target="_blank" style='font-family: "Times New Roman", Times, serif; font-size: 16px; color: #0066cc;'>${coreValue}</a>`;
-                    }
-                    else if (modifiedHeadingDisplay === 'Reference (PMID)') {
-                        coreValue = `<a href="https://pubmed.ncbi.nlm.nih.gov/${coreValue}" target="_blank" style='font-family: "Times New Roman", Times, serif; font-size: 16px; color: #0066cc;'>${coreValue}</a>`;
-                    }
-
-                    resultsHTMLBlock += `<div style='margin-bottom: 4px;'><strong>${modifiedHeadingDisplay}:</strong> ${coreValue}</div>`;
                 });
 
                 if (row["Protein ID"]) {
@@ -642,15 +785,6 @@
                         </div>
                         <div style="margin-top: 20px; text-align: left; display: inline-block; margin-right: 10px;">
                             <a href="${uniProtTarget}" target="_blank" style="font-weight: bold; font-family: Arial; color: #204060; text-decoration: none; background-color: #add8e6; padding: 8px 12px; border-radius: 5px; font-size: 16px;">UniProtDB</a>
-                        </div>
-                    `;
-                }
-
-                if (row["Gene Sequence (FASTAFormat)"]) {
-                    const primer3TargetUrl = `https://primer3plus.com/cgi-bin/dev/primer3plus.cgi?sequence=${encodeURIComponent(row["Gene Sequence (FASTAFormat)"])}`;
-                    resultsHTMLBlock += `
-                        <div style="margin-top: 20px; text-align: left; display: inline-block;">
-                            <a href="${primer3TargetUrl}" target="_blank" style="font-weight: bold; font-family: Arial; color: #204060; text-decoration: none; background-color: #add8e6; padding: 8px 12px; border-radius: 5px; font-size: 16px;">Primer3Plus</a>
                         </div>
                     `;
                 }
@@ -668,13 +802,13 @@
                     }
                 });
 
-                if (relatedVariantsList.size > 0) {
+                if (relatedVariantsList.size > 1) { // Ensure there are related genes besides itself
                     leftColumnWrapper.className = 'results-left-column with-sidebar';
                     rightSidebar.style.display = 'block';
 
-                    let sidebarHTML = `<div class="sidebar-box"><strong>Related genes:</strong>`;
+                    let sidebarHTML = `<div class="sidebar-box" style="width: 5cm; float: right; margin-left: 20px;"><strong>Related genes:</strong>`;
                     relatedVariantsList.forEach(variantName => {
-                        sidebarHTML += `<a href="#" onclick="event.preventDefault(); document.getElementById('searchQuery').value='${variantName}'; executeDisplayRender('${variantName}');">${variantName}</a>`;
+                        sidebarHTML += `<a href="#" onclick="event.preventDefault(); executeDisplayRender('${variantName}');">${variantName}</a>`;
                     });
                     sidebarHTML += `</div>`;
                     rightSidebar.innerHTML = sidebarHTML;
@@ -738,7 +872,7 @@
             window.open(forwardBlastEngineUrl, '_blank');
         }
 
-        // FIXED: Advanced target verification map to preserve open configurations across native elements
+        // Advanced target verification map to preserve open configurations across native elements
         document.addEventListener('click', function(event) {
             const toggleBtn = document.getElementById('toggleDownloadBtn');
             const downloadContainer = document.getElementById('dropdownContainer');
@@ -756,9 +890,9 @@
             // 2. Safeguard Download Card Boundaries (Keeps card open during list selections)
             if (downloadContainer.style.display === 'block') {
                 if (downloadContainer.contains(event.target) || event.target.tagName === 'OPTION' || event.target.closest('#dropdownContainer')) {
-                    return; // Ignore the click event and keep the menu open
+                    return; 
                 } else {
-                    downloadContainer.style.display = 'none'; // Safely close when clicking entirely outside
+                    downloadContainer.style.display = 'none'; 
                 }
             }
 
