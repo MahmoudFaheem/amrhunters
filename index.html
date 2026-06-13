@@ -739,30 +739,36 @@
                 resultsHTMLBlock += `<div class="result-card">`;
 
                 sheetHeadings.forEach(headingKey => {
-                    let modifiedHeadingDisplay = headingKey.replace(/:$/, ''); 
-
-                    // FIXED: Completely skip rendering the raw FASTA sequence property fields inside the display card loop
-                    if (headingKey === "PhotoFilename" || 
-                        modifiedHeadingDisplay === "Protein Sequence (FASTAFormat)" || 
-                        modifiedHeadingDisplay === "Gene Sequence (FASTAFormat)" ||
-                        modifiedHeadingDisplay === "Protein Sequence (FASTA Format)" || 
-                        modifiedHeadingDisplay === "Gene Sequence (FASTA Format)") {
-                        return;
-                    }
+                    if (headingKey === "PhotoFilename") return; 
 
                     let coreValue = row[headingKey] || '';
+                    let modifiedHeadingDisplay = headingKey.replace(/:$/, ''); 
 
-                    if (isTaxonomicField(modifiedHeadingDisplay)) {
-                        coreValue = `<em style='font-family: "Times New Roman", Times, serif; font-size: 16px;'>${coreValue}</em>`;
+                    // FIXED: Successfully intercepts your literal dataset column keys ("FASTA_gene", "FASTA_protein", etc.)
+                    if (displayHeadingIncludesFASTA(modifiedHeadingDisplay)) {
+                        const sequenceElementId = `seq-block-${individualIdx}-${modifiedHeadingDisplay.toLowerCase().replace(/[\s_\-]/g, '-')}`;
+                        
+                        resultsHTMLBlock += `
+                            <div style='margin-bottom: 4px;'><strong>${modifiedHeadingDisplay}:</strong>
+                                <div style='display: inline-block; border: 1px solid #ccc; padding: 10px; margin-top: 5px; margin-bottom: 10px; max-width: 100%; width: 100%; box-sizing: border-box; background-color: #fff;'>
+                                    <pre id='${sequenceElementId}' style='white-space: pre-wrap; font-family: monospace; font-size: 14px; overflow-y: auto; max-height: 200px; word-wrap: break-word; margin: 0 0 10px 0; width: 100%; max-width: 850px;'>${coreValue}</pre>
+                                    <button type='button' onclick='CopyToClipboard("${sequenceElementId}")' style='font-weight: bold; font-family: Arial; color: #204060; background-color: #add8e6; padding: 8px 12px; border-radius: 5px; border: none; cursor: pointer;'>COPY</button>
+                                </div>
+                            </div>
+                        `;
                     }
-                    else if (modifiedHeadingDisplay === 'Protein ID') {
-                        coreValue = `<a href="http://www.ncbi.nlm.nih.gov/protein/${coreValue}" target="_blank" style='font-family: "Times New Roman", Times, serif; font-size: 16px; color: #0066cc;'>${coreValue}</a>`;
+                    else {
+                        if (isTaxonomicField(modifiedHeadingDisplay)) {
+                            coreValue = `<em style='font-family: "Times New Roman", Times, serif; font-size: 16px;'>${coreValue}</em>`;
+                        }
+                        else if (modifiedHeadingDisplay === 'Protein ID') {
+                            coreValue = `<a href="http://www.ncbi.nlm.nih.gov/protein/${coreValue}" target="_blank" style='font-family: "Times New Roman", Times, serif; font-size: 16px; color: #0066cc;'>${coreValue}</a>`;
+                        }
+                        else if (modifiedHeadingDisplay === 'Reference (PMID)') {
+                            coreValue = `<a href="https://pubmed.ncbi.nlm.nih.gov/${coreValue}" target="_blank" style='font-family: "Times New Roman", Times, serif; font-size: 16px; color: #0066cc;'>${coreValue}</a>`;
+                        }
+                        resultsHTMLBlock += `<div style='margin-bottom: 4px;'><strong>${modifiedHeadingDisplay}:</strong> ${coreValue}</div>`;
                     }
-                    else if (modifiedHeadingDisplay === 'Reference (PMID)') {
-                        coreValue = `<a href="https://pubmed.ncbi.nlm.nih.gov/${coreValue}" target="_blank" style='font-family: "Times New Roman", Times, serif; font-size: 16px; color: #0066cc;'>${coreValue}</a>`;
-                    }
-
-                    resultsHTMLBlock += `<div style='margin-bottom: 4px;'><strong>${modifiedHeadingDisplay}:</strong> ${coreValue}</div>`;
                 });
 
                 if (row["Protein ID"]) {
@@ -806,6 +812,12 @@
             }
 
             window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // FIXED: Flexible parsing logic to reliably group all FASTA and Sequence headers
+        function displayHeadingIncludesFASTA(headingStr) {
+            let s = headingStr.toLowerCase().replace(/[\s_\-]/g, '');
+            return s.includes("fasta") || s.includes("sequence");
         }
 
         function isTaxonomicField(headingStr) {
