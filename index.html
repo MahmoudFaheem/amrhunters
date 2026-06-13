@@ -602,11 +602,23 @@
             return false;
         }
 
+        function resetToHome(event) {
+            if (event) event.preventDefault();
+            document.getElementById('searchQuery').value = '';
+            document.getElementById('search-layout-view').style.display = 'none';
+            document.getElementById('list-view-container').style.display = 'none';
+            document.getElementById('blast-container-view').style.display = 'block';
+            document.getElementById('default-info-view').style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // REPLICATES list.php DATA MATRIX GROUPING RULES
         function triggerQuickSection(enzymeGroup) {
             const listViewWindow = document.getElementById('list-view-container');
             const listViewTitle = document.getElementById('list-view-title');
             const listViewContent = document.getElementById('list-view-content');
             
+            // Hide alternative viewport layers
             document.getElementById('default-info-view').style.display = 'none';
             document.getElementById('blast-container-view').style.display = 'none';
             document.getElementById('search-layout-view').style.display = 'none';
@@ -615,6 +627,7 @@
             listViewWindow.style.display = 'block';
             listViewTitle.textContent = "Variants for " + enzymeGroup;
 
+            // Extract variants matching chosen enzyme criteria
             let matchingVariantsSet = new Set();
             matrixDataset.forEach(row => {
                 if (row["Enzyme"] === enzymeGroup && row["Variant Name/ Symbol"]) {
@@ -625,6 +638,7 @@
             let uniqueVariantsList = Array.from(matchingVariantsSet).sort();
 
             if (enzymeGroup === "Beta-lactamase") {
+                // Group by prefix rule from list.php
                 let structuralGroups = {};
                 uniqueVariantsList.forEach(variant => {
                     let groupKey = variant.startsWith("CAR") ? "CARB" : variant.substring(0, 3);
@@ -634,6 +648,7 @@
                     structuralGroups[groupKey].push(variant);
                 });
 
+                // Render each group container card block
                 Object.keys(structuralGroups).forEach(groupKey => {
                     const groupCard = document.createElement('div');
                     groupCard.className = 'group-container';
@@ -654,6 +669,7 @@
                     listViewContent.appendChild(groupCard);
                 });
             } else {
+                // Non beta-lactamase fallback render single flat panel container card matching list.php layout choices
                 const flatGroupCard = document.createElement('div');
                 flatGroupCard.className = 'group-container';
                 flatGroupCard.innerHTML = `<div class="group-title">Variants</div>`;
@@ -672,17 +688,6 @@
                 flatGroupCard.appendChild(boxesContainer);
                 listViewContent.appendChild(flatGroupCard);
             }
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        // Functional navigation state resetter
-        function resetToHome(event) {
-            if (event) event.preventDefault();
-            document.getElementById('searchQuery').value = '';
-            document.getElementById('search-layout-view').style.display = 'none';
-            document.getElementById('list-view-container').style.display = 'none';
-            document.getElementById('blast-container-view').style.display = 'block';
-            document.getElementById('default-info-view').style.display = 'block';
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
@@ -744,9 +749,8 @@
                     let coreValue = row[headingKey] || '';
                     let modifiedHeadingDisplay = headingKey.replace(/:$/, ''); 
 
-                    // FIXED: Successfully intercepts your literal dataset column keys ("FASTA_gene", "FASTA_protein", etc.)
                     if (displayHeadingIncludesFASTA(modifiedHeadingDisplay)) {
-                        const sequenceElementId = `seq-block-${individualIdx}-${modifiedHeadingDisplay.toLowerCase().replace(/[\s_\-]/g, '-')}`;
+                        const sequenceElementId = `seq-block-${individualIdx}-${modifiedHeadingDisplay.toLowerCase().replace(/\s+/g, '-')}`;
                         
                         resultsHTMLBlock += `
                             <div style='margin-bottom: 4px;'><strong>${modifiedHeadingDisplay}:</strong>
@@ -798,13 +802,13 @@
                     }
                 });
 
-                if (relatedVariantsList.size > 0) {
+                if (relatedVariantsList.size > 1) { // Ensure there are related genes besides itself
                     leftColumnWrapper.className = 'results-left-column with-sidebar';
                     rightSidebar.style.display = 'block';
 
-                    let sidebarHTML = `<div class="sidebar-box"><strong>Related genes:</strong>`;
+                    let sidebarHTML = `<div class="sidebar-box" style="width: 5cm; float: right; margin-left: 20px;"><strong>Related genes:</strong>`;
                     relatedVariantsList.forEach(variantName => {
-                        sidebarHTML += `<a href="#" onclick="event.preventDefault(); document.getElementById('searchQuery').value='${variantName}'; executeDisplayRender('${variantName}');">${variantName}</a>`;
+                        sidebarHTML += `<a href="#" onclick="event.preventDefault(); executeDisplayRender('${variantName}');">${variantName}</a>`;
                     });
                     sidebarHTML += `</div>`;
                     rightSidebar.innerHTML = sidebarHTML;
@@ -814,10 +818,11 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // FIXED: Flexible parsing logic to reliably group all FASTA and Sequence headers
         function displayHeadingIncludesFASTA(headingStr) {
-            let s = headingStr.toLowerCase().replace(/[\s_\-]/g, '');
-            return s.includes("fasta") || s.includes("sequence");
+            return headingStr === "Protein Sequence (FASTAFormat)" || 
+                   headingStr === "Gene Sequence (FASTAFormat)" ||
+                   headingStr === "Protein Sequence (FASTA Format)" || 
+                   headingStr === "Gene Sequence (FASTA Format)";
         }
 
         function isTaxonomicField(headingStr) {
