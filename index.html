@@ -407,7 +407,7 @@
             font-weight: bold;
             font-size: 14px;
             display: flex;
-            justify-content: space-between;
+            justify-between: space-between;
             align-items: center;
         }
 
@@ -918,7 +918,6 @@
 
             window.scrollTo({ top: 0, behavior: 'smooth' });
             
-            // Programmatically notify chatbot layout about active details
             appendBotChatMessage(`Retrieved context for matching string: <strong>${searchKeyString}</strong>. Ask me a question about it below!`);
         }
 
@@ -945,6 +944,10 @@
             box.appendChild(msg); box.scrollTop = box.scrollHeight;
         }
 
+        document.getElementById('chatInput').addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') { executeChatGeneration(); }
+        });
+
         function appendBotChatMessage(htmlText) {
             const box = document.getElementById('chatMessages');
             const msg = document.createElement('div'); msg.className = 'message bot'; msg.innerHTML = htmlText;
@@ -962,15 +965,14 @@
             const lowerQuery = rawUserQuery.toLowerCase();
             let botAnswerHTML = "";
 
-            // Pattern Match 1: Requesting lists of genes by Enzyme Category
             let targetEnzyme = "";
-            if (lowerQuery.includes("beta-lactamase") || lowerQuery.includes("beta lactamase")) {
+            if (lowerQuery.includes("beta") || lowerQuery.includes("lactamase")) {
                 targetEnzyme = "Beta-lactamase";
-            } else if (lowerQuery.includes("chloramphenicol") || lowerQuery.includes("acetyltransferase")) {
+            } else if (lowerQuery.includes("chloramphenicol") || lowerQuery.includes("cat") || lowerQuery.includes("acetyltransferase")) {
                 targetEnzyme = "Chloramphenicol acetyltransferase";
             }
 
-            if (targetEnzyme && (lowerQuery.includes("list") || lowerQuery.includes("show") || lowerQuery.includes("what") || lowerQuery.includes("gene") || lowerQuery.includes("variant"))) {
+            if (targetEnzyme && (lowerQuery.includes("list") || lowerQuery.includes("show") || lowerQuery.includes("what") || lowerQuery.includes("gene") || lowerQuery.includes("variant") || lowerQuery.includes("confere") || lowerQuery.includes("resistance"))) {
                 let variants = new Set();
                 matrixDataset.forEach(row => {
                     if (row["Enzyme"] === targetEnzyme && row["Variant Name/ Symbol"]) {
@@ -978,12 +980,11 @@
                     }
                 });
                 if (variants.size > 0) {
-                    botAnswerHTML = `I scanned the local database records immediately. Here are the active variants conferring resistance to <strong>${targetEnzyme}</strong>:<br><br>` + 
+                    botAnswerHTML = `I scanned the database records instantly. Here are the active variants conferring resistance to <strong>${targetEnzyme}</strong>:<br><br>` + 
                                    Array.from(variants).sort().map(v => `• <a href="#" style="color:#0066cc; text-decoration:none; font-weight:bold;" onclick="event.preventDefault(); document.getElementById('searchQuery').value='${v}'; executeDisplayRender('${v}');">${v}</a>`).join('<br>');
                 }
             }
 
-            // Pattern Match 2: Requesting structural data profile summaries for specific variants
             if (!botAnswerHTML) {
                 let detectedRow = null;
                 for (let row of matrixDataset) {
@@ -1004,7 +1005,6 @@
                 }
             }
 
-            // Pattern Match 3: Universal Keyword Database Grid Filtering Fallback
             if (!botAnswerHTML) {
                 let fallbackMatches = matrixDataset.filter(row => {
                     return Object.values(row).some(val => String(val).toLowerCase().includes(lowerQuery));
@@ -1018,48 +1018,16 @@
                 }
             }
 
-            // Fallback default message block if text criteria boundaries fail completely
             if (!botAnswerHTML) {
                 botAnswerHTML = `I searched the local matrix dataset for "${rawUserQuery}" but couldn't find an explicit match. Try typing "list beta-lactamase genes" or inputting a specific reference symbol like "SHV-1".`;
             }
 
-            // Deliver the conversational output instantly to the bubble drawer zone
             setTimeout(() => {
                 appendBotChatMessage(botAnswerHTML);
             }, 50);
         }
 
-        function CopyToClipboard(elementId) {
-            const textToCopyNode = document.getElementById(elementId);
-            const selectionRange = document.createRange();
-            selectionRange.selectNode(textToCopyNode);
-            window.getSelection().removeAllRanges();
-            window.getSelection().addRange(selectionRange);
-            document.execCommand("copy");
-            window.getSelection().removeAllRanges();
-
-            const alertModalOverlay = document.createElement('div');
-            alertModalOverlay.innerHTML = 'Copied to clipboard!';
-            alertModalOverlay.style.cssText = 'position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); padding: 10px 20px; background-color: rgba(0, 0, 0, 0.7); color: #fff; font-family: Arial; font-size: 16px; border-radius: 5px; z-index: 9999;';
-            document.body.appendChild(alertModalOverlay);
-            setTimeout(function () { alertModalOverlay.parentNode.removeChild(alertModalOverlay); }, 500);
-        }
-
-        function handleFileFastaUpload(event) {
-            const uploadedFileRef = event.target.files[0];
-            if (!uploadedFileRef) return;
-            const fileReader = new FileReader();
-            fileReader.onload = function(e) { document.getElementById('fastaInput').value = e.target.result; };
-            fileReader.readAsText(uploadedFileRef);
-        }
-
-        function runSequenceBlast(event) {
-            event.preventDefault();
-            const sequenceTextPayload = document.getElementById('fastaInput').value.trim();
-            if(!sequenceTextPayload) { alert("Please paste or upload gene sequences in FASTA format."); return; }
-            window.open(`https://blast.ncbi.nlm.nih.gov/Blast.cgi?PROGRAM=blastn&PAGE_TYPE=BlastSearch&QUERY=${encodeURIComponent(sequenceTextPayload)}`, '_blank');
-        }
-
+        // Standard event controllers
         document.addEventListener('click', function(event) {
             const toggleBtn = document.getElementById('toggleDownloadBtn');
             const downloadContainer = document.getElementById('dropdownContainer');
@@ -1077,20 +1045,6 @@
                 else { downloadContainer.style.display = 'none'; }
             }
             if (autocompleteDropdown.classList.contains('show') && event.target !== searchInput) { autocompleteDropdown.classList.remove('show'); }
-        });
-
-        document.getElementById('chatInput').addEventListener('keydown', function(event) {
-            if (event.key === 'Enter') { executeChatGeneration(); }
-        });
-
-        document.getElementById('downloadLink').addEventListener('click', function(event) {
-            event.preventDefault();
-            const selectedFileTarget = document.getElementById('file').value;
-            const downloadTriggerNode = document.createElement('a');
-            downloadTriggerNode.setAttribute('href', selectedFileTarget);
-            downloadTriggerNode.setAttribute('download', selectedFileTarget);
-            document.body.appendChild(downloadTriggerNode); downloadTriggerNode.click();
-            document.body.removeChild(downloadTriggerNode);
         });
 
         window.addEventListener('DOMContentLoaded', bootAppPipeline);
