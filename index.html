@@ -5,15 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RESISTOME RESOURCES @ HOST-PATHOGEN NETWORK</title>
     <style>
-        /* Core Brand Styling Layout */
+        /* Fused Styles from header.php, index.php, search.php and list.php */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
             background-color: #FAF9F6;
-            padding-bottom: 140px; 
+            padding-bottom: 140px; /* Fully clears custom fixed footer layout zone */
         }
 
+        /* Dark Slate Header Banner */
         .header {
             position: relative;
             background-color: #2C3539; 
@@ -33,6 +34,7 @@
             height: auto;
         }
 
+        /* Fixed Navigation Download Trigger Box Location */
         .download-button {
             position: fixed;
             top: 20px;
@@ -40,6 +42,7 @@
             z-index: 1010;
         }
 
+        /* Dropdown Component Base Styles */
         .dropdown-content {
             display: none;
             position: absolute;
@@ -50,6 +53,7 @@
             box-sizing: border-box;
         }
 
+        /* Premium Styling for the Download Action Card Panel */
         #dropdownContainer {
             top: calc(100% + 8px);
             right: 0;
@@ -58,11 +62,14 @@
             border-radius: 8px;
             padding: 16px;
             width: 260px;
+            max-height: none;
+            overflow: visible;
             box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.15);
             display: none;
         }
 
         #dropdownContainer label {
+            font-family: Arial, sans-serif;
             font-size: 13px;
             font-weight: bold;
             color: #4A5568;
@@ -79,10 +86,17 @@
             border-radius: 6px;
             border: 1px solid #cbd5e1;
             width: 100%;
+            font-family: Arial, sans-serif;
             font-size: 14px;
             color: #333333;
             background-color: #f8fafc;
+            cursor: pointer;
             box-sizing: border-box;
+        }
+
+        #dropdownContainer select:focus {
+            outline: none;
+            border-color: #4CAF50;
         }
 
         #dropdownContainer #downloadLink {
@@ -90,14 +104,21 @@
             background-color: #4CAF50;
             color: white;
             border-radius: 6px;
+            font-family: Arial, sans-serif;
             font-weight: bold;
             font-size: 14px;
             text-decoration: none;
             display: block;
             text-align: center;
             box-sizing: border-box;
+            transition: background-color 0.2s ease;
         }
 
+        #dropdownContainer #downloadLink:hover {
+            background-color: #43a047;
+        }
+
+        /* Autocomplete Results Dropdown Properties */
         #autocomplete-dropdown {
             width: 60%;
             left: 50%;
@@ -124,6 +145,7 @@
             display: block !important;
         }
 
+        /* Search Layout Container Frame */
         .search-container {
             position: relative;
             text-align: center;
@@ -151,6 +173,11 @@
             margin-left: 10px;
         }
 
+        .search-container input[type="submit"]:hover {
+            background-color: #4CAF50;
+        }
+
+        /* BLAST Sequence Interface Dashboard Workspace */
         .upload-container {
             margin-top: 20px;
             text-align: center;
@@ -167,6 +194,7 @@
             box-sizing: border-box;
         }
 
+        /* Default Layout Profile Cards */
         .content {
             max-width: 800px;
             margin: 20px auto;
@@ -177,11 +205,28 @@
             box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
         }
 
-        .overview-section { margin-bottom: 30px; }
-        .overview-content { font-size: 16px; line-height: 1.6; }
-        .panel-heading h2 { font-size: 24px; margin: 0; }
-        .panel-heading p { font-size: 16px; margin-top: 5px; }
-        .action-buttons { margin-top: 20px; }
+        .overview-section {
+            margin-bottom: 30px;
+        }
+
+        .overview-content {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .panel-heading h2 {
+            font-size: 24px;
+            margin: 0;
+        }
+
+        .panel-heading p {
+            font-size: 16px;
+            margin-top: 5px;
+        }
+
+        .action-buttons {
+            margin-top: 20px;
+        }
 
         .action-button {
             padding: 10px 20px;
@@ -194,9 +239,14 @@
             margin-right: 10px;
             display: inline-block;
             text-decoration: none;
+            font-family: Arial, sans-serif;
         }
 
-        .action-button:hover { background-color: #0B5BD7; }
+        .action-button:hover {
+            background-color: #0B5BD7;
+        }
+
+        /* Native Navigation Back Controller Link */
         .back-button {
             background-color: #2C3539;
             color: white;
@@ -207,9 +257,15 @@
             border-radius: 4px;
             cursor: pointer;
             margin-bottom: 20px;
+            font-family: Arial, sans-serif;
+            transition: background-color 0.2s;
         }
 
-        /* Search & Variant Grid Layout Sets */
+        .back-button:hover {
+            background-color: #4CAF50;
+        }
+
+        /* Split Result Grid Frame Verbatim From search.php rules */
         .search-wrapper-layout {
             max-width: 900px; 
             margin: 30px auto; 
@@ -218,9 +274,19 @@
             padding: 0 10px;
         }
 
-        .results-left-column { width: 100%; margin-right: 20px; }
-        .results-left-column.with-sidebar { width: calc(100% - 240px); }
-        .sidebar-right-column { width: 200px; box-sizing: border-box; }
+        .results-left-column {
+            width: 100%; 
+            margin-right: 20px;
+        }
+
+        .results-left-column.with-sidebar {
+            width: calc(100% - 240px);
+        }
+
+        .sidebar-right-column {
+            width: 200px;
+            box-sizing: border-box;
+        }
 
         .result-card {
             border: 1px solid #ccc; 
@@ -239,38 +305,94 @@
             border-radius: 8px; 
             padding: 20px; 
             background-color: #f2f2f2; 
+            overflow-x: auto; 
+            font-family: Arial, sans-serif; 
             font-size: 13px;
             width: 100%;
             box-sizing: border-box;
             text-align: left;
         }
 
-        .sidebar-box a { color: #0066cc; text-decoration: none; display: block; margin-top: 5px; }
-
-        .list-view-wrapper { max-width: 850px; margin: 20px auto; padding: 20px; }
-        .group-container { margin: 10px 0 20px 0; border: 1px solid #ccc; border-radius: 5px; padding: 10px; background-color: #ffffff; }
-        .group-title { font-weight: bold; margin-bottom: 10px; font-size: 16px; color: #2C3539; border-bottom: 2px solid #f2f2f2; padding-bottom: 5px; }
-        .variants-container { display: flex; flex-wrap: wrap; justify-content: flex-start; }
-        
-        .variant-box {
-            background-color: #f2f2f2; border: 1px solid #ccc; border-radius: 5px;
-            padding: 5px; margin: 5px; cursor: pointer; width: 120px; height: 40px; 
-            text-align: center; font-size: 14px; display: flex; align-items: center; justify-content: center; box-sizing: border-box;
+        .sidebar-box a {
+            color: #0066cc;
+            text-decoration: none;
+            display: block;
+            margin-top: 5px;
         }
 
-        .variant-box:hover { background-color: #e0e0e0; }
+        .sidebar-box a:hover {
+            text-decoration: underline;
+        }
 
-        /* Premium Floating RAG Chat Interface Frame */
+        /* Unified Matrix Grid System Styles from list.php layout */
+        .list-view-wrapper {
+            max-width: 850px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        .group-container {
+            margin: 10px 0 20px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            background-color: #ffffff;
+        }
+
+        .group-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 16px;
+            color: #2C3539;
+            border-bottom: 2px solid #f2f2f2;
+            padding-bottom: 5px;
+        }
+
+        .variants-container {
+            display: flex; 
+            flex-wrap: wrap; 
+            justify-content: flex-start; 
+        }
+
+        .variant-box {
+            background-color: #f2f2f2;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 5px; 
+            margin: 5px;
+            cursor: pointer;
+            width: 120px; 
+            height: 40px; 
+            text-align: center;
+            font-size: 14px;
+            display: flex;
+            align-items: center; 
+            justify-content: center; 
+            box-sizing: border-box;
+            transition: background-color 0.2s;
+        }
+
+        .variant-box:hover {
+            background-color: #e0e0e0;
+        }
+
+        .clearfix::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        /* Premium Floating Autonomous Chat Interface Widget Frame */
         .chat-widget {
             position: fixed;
             bottom: 20px;
             right: 20px;
-            width: 360px;
-            height: 480px;
+            width: 380px;
+            height: 500px;
             background-color: #ffffff;
             border: 1px solid #cbd5e1;
             border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
             display: flex;
             flex-direction: column;
             z-index: 2000;
@@ -281,7 +403,7 @@
         .chat-header {
             background-color: #2C3539;
             color: #ffffff;
-            padding: 12px 16px;
+            padding: 14px 16px;
             font-weight: bold;
             font-size: 14px;
             display: flex;
@@ -300,11 +422,11 @@
         }
 
         .message {
-            max-width: 80%;
+            max-width: 85%;
             padding: 10px 14px;
             border-radius: 8px;
             font-size: 13.5px;
-            line-height: 1.4;
+            line-height: 1.45;
         }
 
         .message.user {
@@ -331,7 +453,7 @@
 
         .chat-input-area input[type="text"] {
             flex: 1;
-            padding: 8px 12px;
+            padding: 10px 12px;
             border: 1px solid #cbd5e1;
             border-radius: 6px;
             outline: none;
@@ -342,13 +464,19 @@
             background-color: #4CAF50;
             color: white;
             border: none;
-            padding: 8px 14px;
+            padding: 10px 16px;
             border-radius: 6px;
             cursor: pointer;
             font-weight: bold;
             font-size: 13px;
+            transition: background-color 0.2s;
         }
 
+        .chat-input-area button:hover {
+            background-color: #43a047;
+        }
+
+        /* Standardized Site Dark Footer */
         .footer {
             background-color: #333333;
             color: white;
@@ -361,8 +489,26 @@
             z-index: 1000;
         }
 
-        .footer p { font-size: 16px; margin: 0; }
-        .footer a { color: #fff; text-decoration: none; }
+        .footer p {
+            font-size: 16px;
+            margin: 0;
+        }
+
+        .footer a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        .status-msg {
+            text-align: center;
+            color: #2C3539;
+            font-weight: bold;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -372,7 +518,7 @@
             <img alt="AMR Logo" src="images/AMR_logo.png" style="width: 400px;">
             <h1 style="line-height: 0.35; color: white; font-weight: normal;">RESISTOME RESOURCES @ HOST-PATHOGEN NETWORK</h1>
             <h2 style="text-align: center; line-height: 1; color: white; font-weight: normal;">A comprehensive repository of antibiotic resistance genes and their variants</h2>
-            <h3 style="text-align: center; line-height: 0.05; color: white; font-weight: normal;">an <a href="http://egybio.net" style="color: white;"><u>Egybio</u></a> project</h3>
+            <h3 style="text-align: center; line-height: 0.05; color: white; font-weight: normal;"><span style="color: white; font-weight: normal;">an</span> <a href="http://egybio.net" style="color: white; font-weight: normal;"><u>Egybio</u></a> project</h3>
         </a>
 
         <div class="download-button">
@@ -407,7 +553,7 @@
         </form>
     </div>
 
-    <div id="list-view-container" class="list-view-wrapper" style="display: none;">
+    <div id="list-view-container" class="list-view-wrapper clearfix" style="display: none;">
         <button class="back-button" onclick="resetToHome(event)">&larr; Go Back to Overview</button>
         <h1 id="list-view-title" style="font-size: 28px; color: #2C3539; margin-bottom: 20px;">Variants</h1>
         <div id="list-view-content" class="variants-container"></div>
@@ -425,7 +571,7 @@
         <div class="overview-section">
             <h2>AMR Hunters Overview</h2>
             <div class="overview-content">
-                <p>Welcome to the AMR hunters database! AMR hunters serves as a comprehensive repository housing antimicrobial resistance genes and their variants in bacteria. Within its curated collection, users can explore insights into amino acid changes leading to mutant variants, protein ID, gene names and their variants, antibiotic resistance profiles, gene and protein sequences in FASTA format, perform BLAST searches, access PubMed Identifiers (PMIDs), and more.</p>
+                <p>Welcome to the AMR hunters database! AMR hunters serves as a comprehensive repository housing antimicrobial resistance genes and their variants in bacteria. Its primary goal is to provide swift access to essential information crucial for understanding and addressing antimicrobial resistance. Within its curated collection, users can explore insights into amino acid changes leading to mutant variants, protein ID, gene names and their variants, antibiotic resistance profiles, gene and protein sequences in FASTA format, perform BLAST searches, access PubMed Identifiers (PMIDs), and more.</p>
             </div>
         </div>
         
@@ -442,14 +588,13 @@
 
     <div class="chat-widget" id="chatWidget">
         <div class="chat-header">
-            <span>AMR Hunters AI Assistant (RAG)</span>
-            <span style="font-size: 11px; cursor: pointer; text-decoration: underline;" onclick="configureApiKey()">API Key</span>
+            <span>AMR Hunters Assistant (Instant Retrieval)</span>
         </div>
         <div class="chat-messages" id="chatMessages">
-            <div class="message bot">Hello! I am your RAG analysis assistant. Enter your Gemini API key, click a search card, or type a question about resistance variants and I will answer using the database records!</div>
+            <div class="message bot">Hello! I am your real-time data retrieval assistant. Ask me to list variant categories or type a specific gene symbol (like "ACC-1") to pull details from the records immediately without any API keys!</div>
         </div>
         <div class="chat-input-area">
-            <input type="text" id="chatInput" placeholder="Ask a question about current matches...">
+            <input type="text" id="chatInput" placeholder="Ask a question about database genes...">
             <button onclick="executeChatGeneration()">Send</button>
         </div>
     </div>
@@ -463,38 +608,48 @@
 
         let matrixDataset = [];
         let sheetHeadings = [];
-        let matchingRetrievedContext = ""; // Actively caches the latest search data context for RAG execution
 
         async function bootAppPipeline() {
             const indexTracker = document.getElementById('index-tracker');
             try {
                 const response = await fetch('AMR_Gene_Variants.csv');
-                if (!response.ok) throw new Error("Database reference matrix unreachable.");
+                if (!response.ok) throw new Error("Target CSV reference file unreachable.");
                 const rawDataContent = await response.text();
+                
                 compileCSVDataset(rawDataContent);
                 indexTracker.textContent = ""; 
             } catch (err) {
-                indexTracker.textContent = "Data initialization failed. Verify AMR_Gene_Variants.csv location.";
+                indexTracker.textContent = "Data loading failed. Check that AMR_Gene_Variants.csv is present in this path.";
                 console.error(err);
             }
         }
 
         function compileCSVDataset(text) {
-            let entries = []; let workingField = [""]; let insideQuotes = false;
+            let entries = [];
+            let workingField = [""];
+            let insideQuotes = false;
+
             for (let i = 0; i < text.length; i++) {
-                let currentSymbol = text[i]; let aheadSymbol = text[i+1];
+                let currentSymbol = text[i];
+                let aheadSymbol = text[i+1];
                 if (currentSymbol === '"') {
                     if (insideQuotes && aheadSymbol === '"') { workingField[workingField.length - 1] += '"'; i++; } 
                     else { insideQuotes = !insideQuotes; }
-                } else if (currentSymbol === ',' && !insideQuotes) { workingField.push(''); } 
-                else if ((currentSymbol === '\r' || currentSymbol === '\n') && !insideQuotes) {
+                } else if (currentSymbol === ',' && !insideQuotes) {
+                    workingField.push('');
+                } else if ((currentSymbol === '\r' || currentSymbol === '\n') && !insideQuotes) {
                     if (currentSymbol === '\r' && aheadSymbol === '\n') { i++; }
-                    entries.push(workingField); workingField = [''];
-                } else { workingField[workingField.length - 1] += currentSymbol; }
+                    entries.push(workingField);
+                    workingField = [''];
+                } else {
+                    workingField[workingField.length - 1] += currentSymbol;
+                }
             }
             if (workingField.length > 1 || workingField[0] !== '') entries.push(workingField);
+
             if(entries.length === 0) return;
             sheetHeadings = entries[0].map(h => h.trim().replace(/[\n\r]/g, ' ').replace(/\s+/g, ' '));
+
             matrixDataset = entries.slice(1).map(line => {
                 let entryRecord = {};
                 sheetHeadings.forEach((heading, position) => {
@@ -509,25 +664,41 @@
             const rawSearchQuery = document.getElementById('searchQuery').value.trim().toLowerCase();
             const autocompleteContainer = document.getElementById('autocomplete-dropdown');
             autocompleteContainer.innerHTML = '';
-            if (rawSearchQuery.length < 1) { autocompleteContainer.classList.remove('show'); return; }
+
+            if (rawSearchQuery.length < 1) {
+                autocompleteContainer.classList.remove('show');
+                return;
+            }
+
             let collectedMatches = new Set();
             matrixDataset.forEach(row => {
                 ['Organism', 'Variant Name/ Symbol', 'Protein ID', 'Enzyme', 'Pathogen'].forEach(fieldKey => {
-                    if (row[fieldKey] && row[fieldKey].toLowerCase().includes(rawSearchQuery)) { collectedMatches.add(row[fieldKey]); }
+                    if (row[fieldKey] && row[fieldKey].toLowerCase().includes(rawSearchQuery)) {
+                        collectedMatches.add(row[fieldKey]);
+                    }
                 });
             });
+
             const topMatchesSlice = Array.from(collectedMatches).slice(0, 12);
+
             topMatchesSlice.forEach(matchedString => {
                 const selectionLink = document.createElement('a');
-                selectionLink.textContent = matchedString; selectionLink.href = '#';
+                selectionLink.textContent = matchedString;
+                selectionLink.href = '#';
                 selectionLink.onclick = function(event) {
-                    event.preventDefault(); document.getElementById('searchQuery').value = matchedString;
-                    autocompleteContainer.classList.remove('show'); executeDisplayRender(matchedString);
+                    event.preventDefault();
+                    document.getElementById('searchQuery').value = matchedString;
+                    autocompleteContainer.classList.remove('show');
+                    executeDisplayRender(matchedString);
                 };
                 autocompleteContainer.appendChild(selectionLink);
             });
-            if (topMatchesSlice.length > 0) autocompleteContainer.classList.add('show');
-            else autocompleteContainer.classList.remove('show');
+
+            if (topMatchesSlice.length > 0) {
+                autocompleteContainer.classList.add('show');
+            } else {
+                autocompleteContainer.classList.remove('show');
+            }
         }
 
         function handleSearchExecution(event) {
@@ -542,44 +713,71 @@
             const listViewWindow = document.getElementById('list-view-container');
             const listViewTitle = document.getElementById('list-view-title');
             const listViewContent = document.getElementById('list-view-content');
+            
             document.getElementById('default-info-view').style.display = 'none';
             document.getElementById('blast-container-view').style.display = 'none';
             document.getElementById('search-layout-view').style.display = 'none';
-            listViewContent.innerHTML = ''; listViewWindow.style.display = 'block';
+            
+            listViewContent.innerHTML = '';
+            listViewWindow.style.display = 'block';
             listViewTitle.textContent = "Variants for " + enzymeGroup;
 
             let matchingVariantsSet = new Set();
             matrixDataset.forEach(row => {
-                if (row["Enzyme"] === enzymeGroup && row["Variant Name/ Symbol"]) { matchingVariantsSet.add(row["Variant Name/ Symbol"]); }
+                if (row["Enzyme"] === enzymeGroup && row["Variant Name/ Symbol"]) {
+                    matchingVariantsSet.add(row["Variant Name/ Symbol"]);
+                }
             });
+
             let uniqueVariantsList = Array.from(matchingVariantsSet).sort();
 
             if (enzymeGroup === "Beta-lactamase") {
                 let structuralGroups = {};
                 uniqueVariantsList.forEach(variant => {
                     let groupKey = variant.startsWith("CAR") ? "CARB" : variant.substring(0, 3);
-                    if (!structuralGroups[groupKey]) structuralGroups[groupKey] = [];
+                    if (!structuralGroups[groupKey]) {
+                        structuralGroups[groupKey] = [];
+                    }
                     structuralGroups[groupKey].push(variant);
                 });
+
                 Object.keys(structuralGroups).forEach(groupKey => {
-                    const groupCard = document.createElement('div'); groupCard.className = 'group-container';
+                    const groupCard = document.createElement('div');
+                    groupCard.className = 'group-container';
                     groupCard.innerHTML = `<div class="group-title">${groupKey}</div>`;
-                    const boxesContainer = document.createElement('div'); boxesContainer.className = 'variants-container';
+                    
+                    const boxesContainer = document.createElement('div');
+                    boxesContainer.className = 'variants-container';
+                    
                     structuralGroups[groupKey].forEach(variant => {
-                        const box = document.createElement('div'); box.className = 'variant-box'; box.textContent = variant;
-                        box.onclick = () => executeDisplayRender(variant); boxesContainer.appendChild(box);
+                        const box = document.createElement('div');
+                        box.className = 'variant-box';
+                        box.textContent = variant;
+                        box.onclick = () => executeDisplayRender(variant);
+                        boxesContainer.appendChild(box);
                     });
-                    groupCard.appendChild(boxesContainer); listViewContent.appendChild(groupCard);
+                    
+                    groupCard.appendChild(boxesContainer);
+                    listViewContent.appendChild(groupCard);
                 });
             } else {
-                const flatGroupCard = document.createElement('div'); flatGroupCard.className = 'group-container';
+                const flatGroupCard = document.createElement('div');
+                flatGroupCard.className = 'group-container';
                 flatGroupCard.innerHTML = `<div class="group-title">Variants</div>`;
-                const boxesContainer = document.createElement('div'); boxesContainer.className = 'variants-container';
+                
+                const boxesContainer = document.createElement('div');
+                boxesContainer.className = 'variants-container';
+                
                 uniqueVariantsList.forEach(variant => {
-                    const box = document.createElement('div'); box.className = 'variant-box'; box.textContent = variant;
-                    box.onclick = () => executeDisplayRender(variant); boxesContainer.appendChild(box);
+                    const box = document.createElement('div');
+                    box.className = 'variant-box';
+                    box.textContent = variant;
+                    box.onclick = () => executeDisplayRender(variant);
+                    boxesContainer.appendChild(box);
                 });
-                flatGroupCard.appendChild(boxesContainer); listViewContent.appendChild(flatGroupCard);
+                
+                flatGroupCard.appendChild(boxesContainer);
+                listViewContent.appendChild(flatGroupCard);
             }
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
@@ -591,7 +789,6 @@
             document.getElementById('list-view-container').style.display = 'none';
             document.getElementById('blast-container-view').style.display = 'block';
             document.getElementById('default-info-view').style.display = 'block';
-            matchingRetrievedContext = ""; // Evict contextual prompt tracking properties cleanly
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
@@ -603,72 +800,96 @@
             const backButtonZone = document.getElementById('back-button-zone');
             const leftColumnWrapper = document.getElementById('left-column-wrapper');
             
-            leftPaneResults.innerHTML = ''; rightSidebar.innerHTML = ''; backButtonZone.innerHTML = '';
-            rightSidebar.style.display = 'none'; leftColumnWrapper.className = 'results-left-column';
+            leftPaneResults.innerHTML = '';
+            rightSidebar.innerHTML = '';
+            backButtonZone.innerHTML = '';
+            rightSidebar.style.display = 'none';
+            leftColumnWrapper.className = 'results-left-column';
 
-            if (!searchKeyString) { resetToHome(); return; }
-            document.getElementById('default-info-view').style.display = 'none';
-            document.getElementById('list-view-container').style.display = 'none';
-            blastContainer.style.display = 'none'; mainLayoutWindow.style.display = 'flex';
-
-            backButtonZone.innerHTML = `<button class="back-button" onclick="resetToHome(event)">&larr; Go Back to Overview</button>`;
-            const operationalQuery = searchKeyString.toLowerCase();
-            
-            const matchesResultPool = matrixDataset.filter(row => {
-                return (row["Organism"] || "").toLowerCase().includes(operationalQuery) ||
-                       (row["Variant Name/ Symbol"] || "").toLowerCase().includes(operationalQuery) ||
-                       (row["Protein ID"] || "").toLowerCase().includes(operationalQuery) ||
-                       (row["Enzyme"] || "").toLowerCase().includes(operationalQuery);
-            });
-
-            if (matchesResultPool.length === 0) {
-                leftPaneResults.innerHTML = `<div style='font-family: Arial; font-size: 16px; margin-top: 20px;'>No results found for '${searchKeyString}'.</div>`;
+            if (!searchKeyString) {
+                resetToHome();
                 return;
             }
 
-            // CRITICAL RAG STEP: Serialize rows directly into a clear text layout context for the chat engine module
-            matchingRetrievedContext = "CURRENT DATABASE MATCHES:\n" + matchesResultPool.map((row, i) => {
-                return `[Entry ${i+1}]\n` + Object.entries(row)
-                    .filter(([k]) => k !== "PhotoFilename" && !k.toLowerCase().includes("fasta"))
-                    .map(([k, v]) => `${k}: ${v}`).join('\n');
-            }).join('\n\n');
+            document.getElementById('default-info-view').style.display = 'none';
+            document.getElementById('list-view-container').style.display = 'none';
+            blastContainer.style.display = 'none'; 
+            mainLayoutWindow.style.display = 'flex';
 
-            let resultsHTMLBlock = ''; let assignedTaxID = '';
+            backButtonZone.innerHTML = `<button class="back-button" onclick="resetToHome(event)">&larr; Go Back to Overview</button>`;
+
+            const operationalQuery = searchKeyString.toLowerCase();
+            
+            const matchesResultPool = matrixDataset.filter(row => {
+                const targetOrganism = row["Organism"] || "";
+                const targetVariant = row["Variant Name/ Symbol"] || "";
+                const targetProtein = row["Protein ID"] || "";
+                const targetEnzyme = row["Enzyme"] || "";
+                return targetOrganism.toLowerCase().includes(operationalQuery) ||
+                       targetVariant.toLowerCase().includes(operationalQuery) ||
+                       targetProtein.toLowerCase().includes(operationalQuery) ||
+                       targetEnzyme.toLowerCase().includes(operationalQuery);
+            });
+
+            if (matchesResultPool.length === 0) {
+                leftPaneResults.innerHTML = `<div style='font-family: Arial; font-size: 16px; margin-top: 20px;'>No results found for '${searchKeyString}' in columns 'Organism', 'Variant Name/ Symbol', 'Protein ID', or 'Enzyme'.</div>`;
+                return;
+            }
+
+            let resultsHTMLBlock = '';
+            let assignedTaxID = '';
 
             matchesResultPool.forEach((row, individualIdx) => {
                 if (row["TaxID"]) { assignedTaxID = row["TaxID"]; }
+
                 resultsHTMLBlock += `<div class="result-card">`;
 
                 sheetHeadings.forEach(headingKey => {
                     if (headingKey === "PhotoFilename") return; 
-                    let coreValue = row[headingKey] || ''; let modifiedHeadingDisplay = headingKey.replace(/:$/, ''); 
+
+                    let coreValue = row[headingKey] || '';
+                    let modifiedHeadingDisplay = headingKey.replace(/:$/, ''); 
 
                     if (displayHeadingIncludesFASTA(modifiedHeadingDisplay)) {
                         const sequenceElementId = `seq-block-${individualIdx}-${modifiedHeadingDisplay.toLowerCase().replace(/[\s_\-]/g, '-')}`;
+                        
                         resultsHTMLBlock += `
                             <div style='margin-bottom: 4px;'><strong>${modifiedHeadingDisplay}:</strong>
                                 <div style='display: inline-block; border: 1px solid #ccc; padding: 10px; margin-top: 5px; margin-bottom: 10px; max-width: 100%; width: 100%; box-sizing: border-box; background-color: #fff;'>
                                     <pre id='${sequenceElementId}' style='white-space: pre-wrap; font-family: monospace; font-size: 14px; overflow-y: auto; max-height: 200px; word-wrap: break-word; margin: 0 0 10px 0; width: 100%; max-width: 850px;'>${coreValue}</pre>
                                     <button type='button' onclick='CopyToClipboard("${sequenceElementId}")' style='font-weight: bold; font-family: Arial; color: #204060; background-color: #add8e6; padding: 8px 12px; border-radius: 5px; border: none; cursor: pointer;'>COPY</button>
                                 </div>
-                            </div>`;
-                    } else {
-                        if (isTaxonomicField(modifiedHeadingDisplay)) { coreValue = `<em>${coreValue}</em>`; }
-                        else if (modifiedHeadingDisplay === 'Protein ID') { coreValue = `<a href="http://www.ncbi.nlm.nih.gov/protein/${coreValue}" target="_blank" style="color: #0066cc;">${coreValue}</a>`; }
-                        else if (modifiedHeadingDisplay === 'Reference (PMID)') { coreValue = `<a href="https://pubmed.ncbi.nlm.nih.gov/${coreValue}" target="_blank" style="color: #0066cc;">${coreValue}</a>`; }
+                            </div>
+                        `;
+                    }
+                    else {
+                        if (isTaxonomicField(modifiedHeadingDisplay)) {
+                            coreValue = `<em style='font-family: "Times New Roman", Times, serif; font-size: 16px;'>${coreValue}</em>`;
+                        }
+                        else if (modifiedHeadingDisplay === 'Protein ID') {
+                            coreValue = `<a href="http://www.ncbi.nlm.nih.gov/protein/${coreValue}" target="_blank" style='font-family: "Times New Roman", Times, serif; font-size: 16px; color: #0066cc;'>${coreValue}</a>`;
+                        }
+                        else if (modifiedHeadingDisplay === 'Reference (PMID)') {
+                            coreValue = `<a href="https://pubmed.ncbi.nlm.nih.gov/${coreValue}" target="_blank" style='font-family: "Times New Roman", Times, serif; font-size: 16px; color: #0066cc;'>${coreValue}</a>`;
+                        }
                         resultsHTMLBlock += `<div style='margin-bottom: 4px;'><strong>${modifiedHeadingDisplay}:</strong> ${coreValue}</div>`;
                     }
                 });
 
                 if (row["Protein ID"]) {
+                    const ncbiBlastTarget = `https://blast.ncbi.nlm.nih.gov/Blast.cgi?PROGRAM=blastp&PAGE_TYPE=BlastSearch&SHOW_DEFAULTS=on&QUERY=${encodeURIComponent(row["Protein ID"])}`;
+                    const uniProtTarget = `https://www.uniprot.org/uniprotkb?query=${encodeURIComponent(row["Protein ID"])}`;
+                    
                     resultsHTMLBlock += `
                         <div style="margin-top: 20px; text-align: left; display: inline-block; margin-right: 10px;">
-                            <a href="https://blast.ncbi.nlm.nih.gov/Blast.cgi?PROGRAM=blastp&PAGE_TYPE=BlastSearch&SHOW_DEFAULTS=on&QUERY=${encodeURIComponent(row["Protein ID"])}" target="_blank" style="font-weight: bold; text-decoration: none; background-color: #add8e6; color: #204060; padding: 8px 12px; border-radius: 5px; font-size: 16px;">BLAST</a>
+                            <a href="${ncbiBlastTarget}" target="_blank" style="font-weight: bold; font-family: Arial; color: #204060; text-decoration: none; background-color: #add8e6; padding: 8px 12px; border-radius: 5px; font-size: 16px;">BLAST</a>
                         </div>
                         <div style="margin-top: 20px; text-align: left; display: inline-block; margin-right: 10px;">
-                            <a href="https://www.uniprot.org/uniprotkb?query=${encodeURIComponent(row["Protein ID"])}" target="_blank" style="font-weight: bold; text-decoration: none; background-color: #add8e6; color: #204060; padding: 8px 12px; border-radius: 5px; font-size: 16px;">UniProtDB</a>
-                        </div>`;
+                            <a href="${uniProtTarget}" target="_blank" style="font-weight: bold; font-family: Arial; color: #204060; text-decoration: none; background-color: #add8e6; padding: 8px 12px; border-radius: 5px; font-size: 16px;">UniProtDB</a>
+                        </div>
+                    `;
                 }
+
                 resultsHTMLBlock += `</div>`;
             });
 
@@ -677,111 +898,135 @@
             if (assignedTaxID) {
                 let relatedVariantsList = new Set();
                 matrixDataset.forEach(r => {
-                    if (r["TaxID"] === assignedTaxID && r["Variant Name/ Symbol"]) { relatedVariantsList.add(r["Variant Name/ Symbol"]); }
+                    if (r["TaxID"] === assignedTaxID && r["Variant Name/ Symbol"]) {
+                        relatedVariantsList.add(r["Variant Name/ Symbol"]);
+                    }
                 });
+
                 if (relatedVariantsList.size > 0) {
-                    leftColumnWrapper.className = 'results-left-column with-sidebar'; rightSidebar.style.display = 'block';
+                    leftColumnWrapper.className = 'results-left-column with-sidebar';
+                    rightSidebar.style.display = 'block';
+
                     let sidebarHTML = `<div class="sidebar-box"><strong>Related genes:</strong>`;
                     relatedVariantsList.forEach(variantName => {
                         sidebarHTML += `<a href="#" onclick="event.preventDefault(); document.getElementById('searchQuery').value='${variantName}'; executeDisplayRender('${variantName}');">${variantName}</a>`;
                     });
-                    sidebarHTML += `</div>`; rightSidebar.innerHTML = sidebarHTML;
+                    sidebarHTML += `</div>`;
+                    rightSidebar.innerHTML = sidebarHTML;
                 }
             }
+
             window.scrollTo({ top: 0, behavior: 'smooth' });
-            appendBotChatMessage("Context updated! I am now analyzing the entries for: " + searchKeyString);
+            
+            // Programmatically notify chatbot layout about active details
+            appendBotChatMessage(`Retrieved context for matching string: <strong>${searchKeyString}</strong>. Ask me a question about it below!`);
         }
 
         function displayHeadingIncludesFASTA(headingStr) {
-            let n = headingStr.toLowerCase().replace(/[\s_\-]/g, '');
-            return n === "fastagene" || n === "fastaprotein" || n === "proteinsequencefastaformat" || n === "genesequencefastaformat";
+            let normalize = headingStr.toLowerCase().replace(/[\s_\-]/g, '');
+            return normalize === "fastagene" || 
+                   normalize === "fastaprotein" || 
+                   normalize === "proteinsequencefastaformat" || 
+                   normalize === "genesequencefastaformat";
         }
 
         function isTaxonomicField(headingStr) {
-            return headingStr === "Organism" || headingStr === "Organism (Genus)" || headingStr === "Organism (Species)" || headingStr === "Subspecies" || headingStr === "Enzyme";
+            return headingStr === "Organism" || 
+                   headingStr === "Organism (Genus)" || 
+                   headingStr === "Organism (Species)" || 
+                   headingStr === "Subspecies" || 
+                   headingStr === "Enzyme";
         }
 
-        /* --- EXCLUSIVE CLIENT-SIDE GENERATIVE RAG ORCHESTRATION PIPELINE ENGINE --- */
-        function configureApiKey() {
-            const fallbackTokenKey = prompt("Please insert your Gemini API Key here (stored fully hidden and secure locally inside localStorage):");
-            if (fallbackTokenKey) { localStorage.setItem('gemini_rag_token', fallbackTokenKey); }
-        }
-
+        /* --- EXCLUSIVE HIGH-SPEED CLIENT-SIDE RETRIEVAL ENGINE PROCESSOR --- */
         function appendUserChatMessage(text) {
             const box = document.getElementById('chatMessages');
             const msg = document.createElement('div'); msg.className = 'message user'; msg.textContent = text;
             box.appendChild(msg); box.scrollTop = box.scrollHeight;
         }
 
-        function appendBotChatMessage(text) {
+        function appendBotChatMessage(htmlText) {
             const box = document.getElementById('chatMessages');
-            const msg = document.createElement('div'); msg.className = 'message bot'; msg.textContent = text;
+            const msg = document.createElement('div'); msg.className = 'message bot'; msg.innerHTML = htmlText;
             box.appendChild(msg); box.scrollTop = box.scrollHeight;
         }
 
-        async function executeChatGeneration() {
+        function executeChatGeneration() {
             const inputField = document.getElementById('chatInput');
-            const queryPrompt = inputField.value.trim();
-            if (!queryPrompt) return;
+            const rawUserQuery = inputField.value.trim();
+            if (!rawUserQuery) return;
 
-            appendUserChatMessage(queryPrompt);
+            appendUserChatMessage(rawUserQuery);
             inputField.value = "";
 
-            const activeSecretToken = localStorage.getItem('gemini_rag_token');
-            if (!activeSecretToken) {
-                appendBotChatMessage("API Key missing! Please click 'API Key' in the chat header to link your Gemini execution token.");
-                return;
+            const lowerQuery = rawUserQuery.toLowerCase();
+            let botAnswerHTML = "";
+
+            // Pattern Match 1: Requesting lists of genes by Enzyme Category
+            let targetEnzyme = "";
+            if (lowerQuery.includes("beta-lactamase") || lowerQuery.includes("beta lactamase")) {
+                targetEnzyme = "Beta-lactamase";
+            } else if (lowerQuery.includes("chloramphenicol") || lowerQuery.includes("acetyltransferase")) {
+                targetEnzyme = "Chloramphenicol acetyltransferase";
             }
 
-            // Fallback default system profile context bounds if no explicit layout cards are active
-            let activeContextBlock = matchingRetrievedContext;
-            if (!activeContextBlock) {
-                activeContextBlock = "No specific entry search context loaded. Base your answers broadly on general bacteriology antibiotic resistome guidelines.";
+            if (targetEnzyme && (lowerQuery.includes("list") || lowerQuery.includes("show") || lowerQuery.includes("what") || lowerQuery.includes("gene") || lowerQuery.includes("variant"))) {
+                let variants = new Set();
+                matrixDataset.forEach(row => {
+                    if (row["Enzyme"] === targetEnzyme && row["Variant Name/ Symbol"]) {
+                        variants.add(row["Variant Name/ Symbol"]);
+                    }
+                });
+                if (variants.size > 0) {
+                    botAnswerHTML = `I scanned the local database records immediately. Here are the active variants conferring resistance to <strong>${targetEnzyme}</strong>:<br><br>` + 
+                                   Array.from(variants).sort().map(v => `• <a href="#" style="color:#0066cc; text-decoration:none; font-weight:bold;" onclick="event.preventDefault(); document.getElementById('searchQuery').value='${v}'; executeDisplayRender('${v}');">${v}</a>`).join('<br>');
+                }
             }
 
-            appendBotChatMessage("Analyzing structural dataset coordinates...");
+            // Pattern Match 2: Requesting structural data profile summaries for specific variants
+            if (!botAnswerHTML) {
+                let detectedRow = null;
+                for (let row of matrixDataset) {
+                    let symbol = (row["Variant Name/ Symbol"] || "").toLowerCase();
+                    if (symbol && lowerQuery.includes(symbol)) {
+                        detectedRow = row;
+                        break;
+                    }
+                }
+                if (detectedRow) {
+                    botAnswerHTML = `<strong>Immediate Retrieval for Variant ${detectedRow["Variant Name/ Symbol"]}:</strong><br><br>` +
+                                   `• <strong>Enzyme Family:</strong> ${detectedRow["Enzyme"] || "N/A"}<br>` +
+                                   `• <strong>Source Organism:</strong> <em>${detectedRow["Organism"] || "Unknown"}</em><br>` +
+                                   `• <strong>Pathogen Class:</strong> <em>${detectedRow["Pathogen"] || "Unknown"}</em><br>` +
+                                   `• <strong>Protein Reference ID:</strong> ${detectedRow["Protein ID"] || "N/A"}<br><br>` +
+                                   `<em>I have loaded this full record onto the master viewport grid for you above!</em>`;
+                    executeDisplayRender(detectedRow["Variant Name/ Symbol"]);
+                }
+            }
 
-            try {
-                // Secure serverless endpoint configuration routing straight to Gemini 1.5 Flash
-                const apiEndpointUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${activeSecretToken}`;
-                
-                const response = await fetch(apiEndpointUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: [{
-                            parts: [{
-                                text: `You are an expert AMR curation chatbot assistant profile for the AMR Hunters database system. 
-                                Answer the user question accurately using only the validated database context metrics provided.
-                                If the context answers it, synthesize the metrics cleanly. Keep answers concise, highly specific, and clear.
-                                
-                                CURRENT RESOURCE DATA CARD CONTEXT:
-                                ${activeContextBlock}
-                                
-                                USER INQUIRY QUESTION:
-                                ${queryPrompt}`
-                            }]
-                        }]
-                    })
+            // Pattern Match 3: Universal Keyword Database Grid Filtering Fallback
+            if (!botAnswerHTML) {
+                let fallbackMatches = matrixDataset.filter(row => {
+                    return Object.values(row).some(val => String(val).toLowerCase().includes(lowerQuery));
                 });
 
-                if (!response.ok) throw new Error("API call returned an error state validation matrix response.");
-                const outputJsonPayload = await response.json();
-                
-                // Parse out response string properties securely from standard JSON mapping trees
-                const generatedReplyText = outputJsonPayload.candidates[0].content.parts[0].text;
-                
-                // Remove the "Analyzing..." placeholder before appending the text reply
-                const messageContainer = document.getElementById('chatMessages');
-                messageContainer.removeChild(messageContainer.lastChild);
-                
-                appendBotChatMessage(generatedReplyText);
-            } catch (err) {
-                console.error(err);
-                const messageContainer = document.getElementById('chatMessages');
-                messageContainer.removeChild(messageContainer.lastChild);
-                appendBotChatMessage("RAG synthesis execution crashed. Confirm token validation properties or try reloading.");
+                if (fallbackMatches.length > 0) {
+                    let uniqueSymbols = new Set(fallbackMatches.map(m => m["Variant Name/ Symbol"]).filter(Boolean));
+                    let limitedSlice = Array.from(uniqueSymbols).slice(0, 6);
+                    botAnswerHTML = `I pulled matching coordinates from the dataset. Found ${fallbackMatches.length} references. Here are the top matching variant links:<br><br>` +
+                                   limitedSlice.map(v => `• <a href="#" style="color:#0066cc; text-decoration:none; font-weight:bold;" onclick="event.preventDefault(); document.getElementById('searchQuery').value='${v}'; executeDisplayRender('${v}');">${v}</a>`).join('<br>');
+                }
             }
+
+            // Fallback default message block if text criteria boundaries fail completely
+            if (!botAnswerHTML) {
+                botAnswerHTML = `I searched the local matrix dataset for "${rawUserQuery}" but couldn't find an explicit match. Try typing "list beta-lactamase genes" or inputting a specific reference symbol like "SHV-1".`;
+            }
+
+            // Deliver the conversational output instantly to the bubble drawer zone
+            setTimeout(() => {
+                appendBotChatMessage(botAnswerHTML);
+            }, 50);
         }
 
         function CopyToClipboard(elementId) {
@@ -834,7 +1079,6 @@
             if (autocompleteDropdown.classList.contains('show') && event.target !== searchInput) { autocompleteDropdown.classList.remove('show'); }
         });
 
-        // Add Enter key trigger configuration support directly on chat input area box fields
         document.getElementById('chatInput').addEventListener('keydown', function(event) {
             if (event.key === 'Enter') { executeChatGeneration(); }
         });
