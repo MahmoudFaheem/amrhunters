@@ -1010,7 +1010,8 @@
                    normalize === "genesequencefastaformat";
         }
 
-        fn isTaxonomicField(headingStr) {
+        // FIXED: Swapped typo 'fn' back to standard 'function' mapping rule to resolve silent compilation errors
+        function isTaxonomicField(headingStr) {
             return headingStr === "Organism" || 
                    headingStr === "Organism (Genus)" || 
                    headingStr === "Organism (Species)" || 
@@ -1113,6 +1114,43 @@
             setTimeout(() => {
                 appendBotChatMessage(botAnswerHTML);
             }, 50);
+        }
+
+        // FIXED: Upgraded clipboard copying parser engine using modern Navigator context parameters
+        function CopyToClipboard(elementId) {
+            const textToCopyNode = document.getElementById(elementId);
+            if (!textToCopyNode) return;
+            const textValue = textToCopyNode.innerText || textToCopyNode.textContent;
+
+            function triggerSuccessToast() {
+                const alertModalOverlay = document.createElement('div');
+                alertModalOverlay.innerHTML = 'Copied to clipboard!';
+                alertModalOverlay.style.cssText = 'position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); padding: 10px 20px; background-color: rgba(0, 0, 0, 0.7); color: #fff; font-family: Arial; font-size: 16px; border-radius: 5px; z-index: 9999;';
+                document.body.appendChild(alertModalOverlay);
+                setTimeout(function () { alertModalOverlay.parentNode.removeChild(alertModalOverlay); }, 500);
+            }
+
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(textValue)
+                    .then(triggerSuccessToast)
+                    .catch(err => console.error("Clipboard API failure, trying fallback:", err));
+            } else {
+                // Invisible semantic layout textarea block fallback for older environments
+                const fallbackTextArea = document.createElement("textarea");
+                fallbackTextArea.value = textValue;
+                fallbackTextArea.style.position = "fixed"; 
+                fallbackTextArea.style.left = "-999999px";
+                document.body.appendChild(fallbackTextArea);
+                fallbackTextArea.focus();
+                fallbackTextArea.select();
+                try {
+                    document.execCommand('copy');
+                    triggerSuccessToast();
+                } catch (err) {
+                    console.error('Fallback layout execution break context:', err);
+                }
+                document.body.removeChild(fallbackTextArea);
+            }
         }
 
         // Standard event controllers
