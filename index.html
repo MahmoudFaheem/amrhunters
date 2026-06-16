@@ -5,16 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RESISTOME RESOURCES @ HOST-PATHOGEN NETWORK</title>
     <style>
-        /* Fused Styles from header.php, index.php, search.php and list.php */
+        /* Core Brand Styling Layout */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
             background-color: #FAF9F6;
-            padding-bottom: 140px; /* Fully clears custom fixed footer layout zone */
+            padding-bottom: 140px; 
         }
 
-        /* Dark Slate Header Banner */
         .header {
             position: relative;
             background-color: #2C3539; 
@@ -34,7 +33,6 @@
             height: auto;
         }
 
-        /* Fixed Navigation Download Trigger Box Location */
         .download-button {
             position: fixed;
             top: 20px;
@@ -42,7 +40,6 @@
             z-index: 1010;
         }
 
-        /* Dropdown Component Base Styles */
         .dropdown-content {
             display: none;
             position: absolute;
@@ -53,7 +50,6 @@
             box-sizing: border-box;
         }
 
-        /* Premium Styling for the Download Action Panel */
         #dropdownContainer {
             top: calc(100% + 8px);
             right: 0;
@@ -62,14 +58,11 @@
             border-radius: 8px;
             padding: 16px;
             width: 260px;
-            max-height: none;
-            overflow: visible;
             box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.15);
             display: none;
         }
 
         #dropdownContainer label {
-            font-family: Arial, sans-serif;
             font-size: 13px;
             font-weight: bold;
             color: #4A5568;
@@ -86,17 +79,10 @@
             border-radius: 6px;
             border: 1px solid #cbd5e1;
             width: 100%;
-            font-family: Arial, sans-serif;
             font-size: 14px;
             color: #333333;
             background-color: #f8fafc;
-            cursor: pointer;
             box-sizing: border-box;
-        }
-
-        #dropdownContainer select:focus {
-            outline: none;
-            border-color: #4CAF50;
         }
 
         #dropdownContainer #downloadLink {
@@ -104,21 +90,14 @@
             background-color: #4CAF50;
             color: white;
             border-radius: 6px;
-            font-family: Arial, sans-serif;
             font-weight: bold;
             font-size: 14px;
             text-decoration: none;
             display: block;
             text-align: center;
             box-sizing: border-box;
-            transition: background-color 0.2s ease;
         }
 
-        #dropdownContainer #downloadLink:hover {
-            background-color: #43a047;
-        }
-
-        /* Autocomplete Results Dropdown Properties */
         #autocomplete-dropdown {
             width: 60%;
             left: 50%;
@@ -145,7 +124,6 @@
             display: block !important;
         }
 
-        /* Search Layout Container Frame */
         .search-container {
             position: relative;
             text-align: center;
@@ -173,11 +151,6 @@
             margin-left: 10px;
         }
 
-        .search-container input[type="submit"]:hover {
-            background-color: #4CAF50;
-        }
-
-        /* BLAST Sequence Interface Dashboard Workspace */
         .upload-container {
             margin-top: 20px;
             text-align: center;
@@ -194,7 +167,6 @@
             box-sizing: border-box;
         }
 
-        /* Default Layout Profile Cards */
         .content {
             max-width: 800px;
             margin: 20px auto;
@@ -205,28 +177,11 @@
             box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
         }
 
-        .overview-section {
-            margin-bottom: 30px;
-        }
-
-        .overview-content {
-            font-size: 16px;
-            line-height: 1.6;
-        }
-
-        .panel-heading h2 {
-            font-size: 24px;
-            margin: 0;
-        }
-
-        .panel-heading p {
-            font-size: 16px;
-            margin-top: 5px;
-        }
-
-        .action-buttons {
-            margin-top: 20px;
-        }
+        .overview-section { margin-bottom: 30px; }
+        .overview-content { font-size: 16px; line-height: 1.6; }
+        .panel-heading h2 { font-size: 24px; margin: 0; }
+        .panel-heading p { font-size: 16px; margin-top: 5px; }
+        .action-buttons { margin-top: 20px; }
 
         .action-button {
             padding: 10px 20px;
@@ -239,14 +194,9 @@
             margin-right: 10px;
             display: inline-block;
             text-decoration: none;
-            font-family: Arial, sans-serif;
         }
 
-        .action-button:hover {
-            background-color: #0B5BD7;
-        }
-
-        /* Native Navigation Back Controller Link */
+        .action-button:hover { background-color: #0B5BD7; }
         .back-button {
             background-color: #2C3539;
             color: white;
@@ -257,15 +207,9 @@
             border-radius: 4px;
             cursor: pointer;
             margin-bottom: 20px;
-            font-family: Arial, sans-serif;
-            transition: background-color 0.2s;
         }
 
-        .back-button:hover {
-            background-color: #4CAF50;
-        }
-
-        /* Split Result Grid Frame Verbatim From search.php rules */
+        /* Search & Variant Grid Layout Sets */
         .search-wrapper-layout {
             max-width: 900px; 
             margin: 30px auto; 
@@ -274,19 +218,9 @@
             padding: 0 10px;
         }
 
-        .results-left-column {
-            width: 100%; 
-            margin-right: 20px;
-        }
-
-        .results-left-column.with-sidebar {
-            width: calc(100% - 240px);
-        }
-
-        .sidebar-right-column {
-            width: 200px;
-            box-sizing: border-box;
-        }
+        .results-left-column { width: 100%; margin-right: 20px; }
+        .results-left-column.with-sidebar { width: calc(100% - 240px); }
+        .sidebar-right-column { width: 200px; box-sizing: border-box; }
 
         .result-card {
             border: 1px solid #ccc; 
@@ -305,84 +239,116 @@
             border-radius: 8px; 
             padding: 20px; 
             background-color: #f2f2f2; 
-            overflow-x: auto; 
-            font-family: Arial, sans-serif; 
             font-size: 13px;
             width: 100%;
             box-sizing: border-box;
             text-align: left;
         }
 
-        .sidebar-box a {
-            color: #0066cc;
-            text-decoration: none;
-            display: block;
-            margin-top: 5px;
-        }
+        .sidebar-box a { color: #0066cc; text-decoration: none; display: block; margin-top: 5px; }
 
-        .sidebar-box a:hover {
-            text-decoration: underline;
-        }
-
-        /* Unified Matrix Grid System Styles from list.php layout */
-        .list-view-wrapper {
-            max-width: 850px;
-            margin: 20px auto;
-            padding: 20px;
-        }
-
-        .group-container {
-            margin: 10px 0 20px 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            padding: 10px;
-            background-color: #ffffff;
-        }
-
-        .group-title {
-            font-weight: bold;
-            margin-bottom: 10px;
-            font-size: 16px;
-            color: #2C3539;
-            border-bottom: 2px solid #f2f2f2;
-            padding-bottom: 5px;
-        }
-
-        .variants-container {
-            display: flex; 
-            flex-wrap: wrap; 
-            justify-content: flex-start; 
-        }
-
+        .list-view-wrapper { max-width: 850px; margin: 20px auto; padding: 20px; }
+        .group-container { margin: 10px 0 20px 0; border: 1px solid #ccc; border-radius: 5px; padding: 10px; background-color: #ffffff; }
+        .group-title { font-weight: bold; margin-bottom: 10px; font-size: 16px; color: #2C3539; border-bottom: 2px solid #f2f2f2; padding-bottom: 5px; }
+        .variants-container { display: flex; flex-wrap: wrap; justify-content: flex-start; }
+        
         .variant-box {
-            background-color: #f2f2f2;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            padding: 5px; 
-            margin: 5px;
-            cursor: pointer;
-            width: 120px; 
-            height: 40px; 
-            text-align: center;
+            background-color: #f2f2f2; border: 1px solid #ccc; border-radius: 5px;
+            padding: 5px; margin: 5px; cursor: pointer; width: 120px; height: 40px; 
+            text-align: center; font-size: 14px; display: flex; align-items: center; justify-content: center; box-sizing: border-box;
+        }
+
+        .variant-box:hover { background-color: #e0e0e0; }
+
+        /* Premium Floating RAG Chat Interface Frame */
+        .chat-widget {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 360px;
+            height: 480px;
+            background-color: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            display: flex;
+            flex-direction: column;
+            z-index: 2000;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+        }
+
+        .chat-header {
+            background-color: #2C3539;
+            color: #ffffff;
+            padding: 12px 16px;
+            font-weight: bold;
             font-size: 14px;
             display: flex;
-            align-items: center; 
-            justify-content: center; 
-            box-sizing: border-box;
-            transition: background-color 0.2s;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .variant-box:hover {
-            background-color: #e0e0e0;
+        .chat-messages {
+            flex: 1;
+            padding: 16px;
+            overflow-y: auto;
+            background-color: #f8fafc;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
         }
 
-        .clearfix::after {
-            content: "";
-            display: table;
-            clear: both;
+        .message {
+            max-width: 80%;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 13.5px;
+            line-height: 1.4;
         }
 
-        /* Standardized Site Dark Footer */
+        .message.user {
+            background-color: #4CAF50;
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 2px;
+        }
+
+        .message.bot {
+            background-color: #e2e8f0;
+            color: #1e293b;
+            align-self: flex-start;
+            border-bottom-left-radius: 2px;
+        }
+
+        .chat-input-area {
+            padding: 12px;
+            background-color: #ffffff;
+            border-top: 1px solid #cbd5e1;
+            display: flex;
+            gap: 8px;
+        }
+
+        .chat-input-area input[type="text"] {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            outline: none;
+            font-size: 13px;
+        }
+
+        .chat-input-area button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
         .footer {
             background-color: #333333;
             color: white;
@@ -395,26 +361,8 @@
             z-index: 1000;
         }
 
-        .footer p {
-            font-size: 16px;
-            margin: 0;
-        }
-
-        .footer a {
-            color: #fff;
-            text-decoration: none;
-        }
-
-        .footer a:hover {
-            text-decoration: underline;
-        }
-
-        .status-msg {
-            text-align: center;
-            color: #2C3539;
-            font-weight: bold;
-            margin-top: 10px;
-        }
+        .footer p { font-size: 16px; margin: 0; }
+        .footer a { color: #fff; text-decoration: none; }
     </style>
 </head>
 <body>
@@ -424,7 +372,7 @@
             <img alt="AMR Logo" src="images/AMR_logo.png" style="width: 400px;">
             <h1 style="line-height: 0.35; color: white; font-weight: normal;">RESISTOME RESOURCES @ HOST-PATHOGEN NETWORK</h1>
             <h2 style="text-align: center; line-height: 1; color: white; font-weight: normal;">A comprehensive repository of antibiotic resistance genes and their variants</h2>
-            <h3 style="text-align: center; line-height: 0.05; color: white; font-weight: normal;"><span style="color: white; font-weight: normal;">an</span> <a href="http://egybio.net" style="color: white; font-weight: normal;"><u>Egybio</u></a> project</h3>
+            <h3 style="text-align: center; line-height: 0.05; color: white; font-weight: normal;">an <a href="http://egybio.net" style="color: white;"><u>Egybio</u></a> project</h3>
         </a>
 
         <div class="download-button">
@@ -459,7 +407,7 @@
         </form>
     </div>
 
-    <div id="list-view-container" class="list-view-wrapper clearfix" style="display: none;">
+    <div id="list-view-container" class="list-view-wrapper" style="display: none;">
         <button class="back-button" onclick="resetToHome(event)">&larr; Go Back to Overview</button>
         <h1 id="list-view-title" style="font-size: 28px; color: #2C3539; margin-bottom: 20px;">Variants</h1>
         <div id="list-view-content" class="variants-container"></div>
@@ -477,7 +425,7 @@
         <div class="overview-section">
             <h2>AMR Hunters Overview</h2>
             <div class="overview-content">
-                <p>Welcome to the AMR hunters database! AMR hunters serves as a comprehensive repository housing antimicrobial resistance genes and their variants in bacteria. Its primary goal is to provide swift access to essential information crucial for understanding and addressing antimicrobial resistance. Within its curated collection, users can explore insights into amino acid changes leading to mutant variants, protein ID, gene names and their variants, antibiotic resistance profiles, gene and protein sequences in FASTA format, perform BLAST searches, access PubMed Identifiers (PMIDs), and more.</p>
+                <p>Welcome to the AMR hunters database! AMR hunters serves as a comprehensive repository housing antimicrobial resistance genes and their variants in bacteria. Within its curated collection, users can explore insights into amino acid changes leading to mutant variants, protein ID, gene names and their variants, antibiotic resistance profiles, gene and protein sequences in FASTA format, perform BLAST searches, access PubMed Identifiers (PMIDs), and more.</p>
             </div>
         </div>
         
@@ -492,6 +440,20 @@
         </div>
     </div>
 
+    <div class="chat-widget" id="chatWidget">
+        <div class="chat-header">
+            <span>AMR Hunters AI Assistant (RAG)</span>
+            <span style="font-size: 11px; cursor: pointer; text-decoration: underline;" onclick="configureApiKey()">API Key</span>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <div class="message bot">Hello! I am your RAG analysis assistant. Enter your Gemini API key, click a search card, or type a question about resistance variants and I will answer using the database records!</div>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" id="chatInput" placeholder="Ask a question about current matches...">
+            <button onclick="executeChatGeneration()">Send</button>
+        </div>
+    </div>
+
     <div class="footer">
         <p>&copy; <span id="current-year"></span> AMR HUNTERS | All rights reserved | Designed by <a href="http://egybio.net" target="_blank">Egybio</a></p>
     </div>
@@ -501,48 +463,38 @@
 
         let matrixDataset = [];
         let sheetHeadings = [];
+        let matchingRetrievedContext = ""; // Actively caches the latest search data context for RAG execution
 
         async function bootAppPipeline() {
             const indexTracker = document.getElementById('index-tracker');
             try {
                 const response = await fetch('AMR_Gene_Variants.csv');
-                if (!response.ok) throw new Error("Target CSV reference file unreachable.");
+                if (!response.ok) throw new Error("Database reference matrix unreachable.");
                 const rawDataContent = await response.text();
-                
                 compileCSVDataset(rawDataContent);
                 indexTracker.textContent = ""; 
             } catch (err) {
-                indexTracker.textContent = "Data loading failed. Check that AMR_Gene_Variants.csv is present in this path.";
+                indexTracker.textContent = "Data initialization failed. Verify AMR_Gene_Variants.csv location.";
                 console.error(err);
             }
         }
 
         function compileCSVDataset(text) {
-            let entries = [];
-            let workingField = [""];
-            let insideQuotes = false;
-
+            let entries = []; let workingField = [""]; let insideQuotes = false;
             for (let i = 0; i < text.length; i++) {
-                let currentSymbol = text[i];
-                let aheadSymbol = text[i+1];
+                let currentSymbol = text[i]; let aheadSymbol = text[i+1];
                 if (currentSymbol === '"') {
                     if (insideQuotes && aheadSymbol === '"') { workingField[workingField.length - 1] += '"'; i++; } 
                     else { insideQuotes = !insideQuotes; }
-                } else if (currentSymbol === ',' && !insideQuotes) {
-                    workingField.push('');
-                } else if ((currentSymbol === '\r' || currentSymbol === '\n') && !insideQuotes) {
+                } else if (currentSymbol === ',' && !insideQuotes) { workingField.push(''); } 
+                else if ((currentSymbol === '\r' || currentSymbol === '\n') && !insideQuotes) {
                     if (currentSymbol === '\r' && aheadSymbol === '\n') { i++; }
-                    entries.push(workingField);
-                    workingField = [''];
-                } else {
-                    workingField[workingField.length - 1] += currentSymbol;
-                }
+                    entries.push(workingField); workingField = [''];
+                } else { workingField[workingField.length - 1] += currentSymbol; }
             }
             if (workingField.length > 1 || workingField[0] !== '') entries.push(workingField);
-
             if(entries.length === 0) return;
             sheetHeadings = entries[0].map(h => h.trim().replace(/[\n\r]/g, ' ').replace(/\s+/g, ' '));
-
             matrixDataset = entries.slice(1).map(line => {
                 let entryRecord = {};
                 sheetHeadings.forEach((heading, position) => {
@@ -557,41 +509,25 @@
             const rawSearchQuery = document.getElementById('searchQuery').value.trim().toLowerCase();
             const autocompleteContainer = document.getElementById('autocomplete-dropdown');
             autocompleteContainer.innerHTML = '';
-
-            if (rawSearchQuery.length < 1) {
-                autocompleteContainer.classList.remove('show');
-                return;
-            }
-
+            if (rawSearchQuery.length < 1) { autocompleteContainer.classList.remove('show'); return; }
             let collectedMatches = new Set();
             matrixDataset.forEach(row => {
                 ['Organism', 'Variant Name/ Symbol', 'Protein ID', 'Enzyme', 'Pathogen'].forEach(fieldKey => {
-                    if (row[fieldKey] && row[fieldKey].toLowerCase().includes(rawSearchQuery)) {
-                        collectedMatches.add(row[fieldKey]);
-                    }
+                    if (row[fieldKey] && row[fieldKey].toLowerCase().includes(rawSearchQuery)) { collectedMatches.add(row[fieldKey]); }
                 });
             });
-
             const topMatchesSlice = Array.from(collectedMatches).slice(0, 12);
-
             topMatchesSlice.forEach(matchedString => {
                 const selectionLink = document.createElement('a');
-                selectionLink.textContent = matchedString;
-                selectionLink.href = '#';
+                selectionLink.textContent = matchedString; selectionLink.href = '#';
                 selectionLink.onclick = function(event) {
-                    event.preventDefault();
-                    document.getElementById('searchQuery').value = matchedString;
-                    autocompleteContainer.classList.remove('show');
-                    executeDisplayRender(matchedString);
+                    event.preventDefault(); document.getElementById('searchQuery').value = matchedString;
+                    autocompleteContainer.classList.remove('show'); executeDisplayRender(matchedString);
                 };
                 autocompleteContainer.appendChild(selectionLink);
             });
-
-            if (topMatchesSlice.length > 0) {
-                autocompleteContainer.classList.add('show');
-            } else {
-                autocompleteContainer.classList.remove('show');
-            }
+            if (topMatchesSlice.length > 0) autocompleteContainer.classList.add('show');
+            else autocompleteContainer.classList.remove('show');
         }
 
         function handleSearchExecution(event) {
@@ -602,6 +538,52 @@
             return false;
         }
 
+        function triggerQuickSection(enzymeGroup) {
+            const listViewWindow = document.getElementById('list-view-container');
+            const listViewTitle = document.getElementById('list-view-title');
+            const listViewContent = document.getElementById('list-view-content');
+            document.getElementById('default-info-view').style.display = 'none';
+            document.getElementById('blast-container-view').style.display = 'none';
+            document.getElementById('search-layout-view').style.display = 'none';
+            listViewContent.innerHTML = ''; listViewWindow.style.display = 'block';
+            listViewTitle.textContent = "Variants for " + enzymeGroup;
+
+            let matchingVariantsSet = new Set();
+            matrixDataset.forEach(row => {
+                if (row["Enzyme"] === enzymeGroup && row["Variant Name/ Symbol"]) { matchingVariantsSet.add(row["Variant Name/ Symbol"]); }
+            });
+            let uniqueVariantsList = Array.from(matchingVariantsSet).sort();
+
+            if (enzymeGroup === "Beta-lactamase") {
+                let structuralGroups = {};
+                uniqueVariantsList.forEach(variant => {
+                    let groupKey = variant.startsWith("CAR") ? "CARB" : variant.substring(0, 3);
+                    if (!structuralGroups[groupKey]) structuralGroups[groupKey] = [];
+                    structuralGroups[groupKey].push(variant);
+                });
+                Object.keys(structuralGroups).forEach(groupKey => {
+                    const groupCard = document.createElement('div'); groupCard.className = 'group-container';
+                    groupCard.innerHTML = `<div class="group-title">${groupKey}</div>`;
+                    const boxesContainer = document.createElement('div'); boxesContainer.className = 'variants-container';
+                    structuralGroups[groupKey].forEach(variant => {
+                        const box = document.createElement('div'); box.className = 'variant-box'; box.textContent = variant;
+                        box.onclick = () => executeDisplayRender(variant); boxesContainer.appendChild(box);
+                    });
+                    groupCard.appendChild(boxesContainer); listViewContent.appendChild(groupCard);
+                });
+            } else {
+                const flatGroupCard = document.createElement('div'); flatGroupCard.className = 'group-container';
+                flatGroupCard.innerHTML = `<div class="group-title">Variants</div>`;
+                const boxesContainer = document.createElement('div'); boxesContainer.className = 'variants-container';
+                uniqueVariantsList.forEach(variant => {
+                    const box = document.createElement('div'); box.className = 'variant-box'; box.textContent = variant;
+                    box.onclick = () => executeDisplayRender(variant); boxesContainer.appendChild(box);
+                });
+                flatGroupCard.appendChild(boxesContainer); listViewContent.appendChild(flatGroupCard);
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
         function resetToHome(event) {
             if (event) event.preventDefault();
             document.getElementById('searchQuery').value = '';
@@ -609,85 +591,7 @@
             document.getElementById('list-view-container').style.display = 'none';
             document.getElementById('blast-container-view').style.display = 'block';
             document.getElementById('default-info-view').style.display = 'block';
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        // REPLICATES list.php DATA MATRIX GROUPING RULES
-        function triggerQuickSection(enzymeGroup) {
-            const listViewWindow = document.getElementById('list-view-container');
-            const listViewTitle = document.getElementById('list-view-title');
-            const listViewContent = document.getElementById('list-view-content');
-            
-            // Hide alternative viewport layers
-            document.getElementById('default-info-view').style.display = 'none';
-            document.getElementById('blast-container-view').style.display = 'none';
-            document.getElementById('search-layout-view').style.display = 'none';
-            
-            listViewContent.innerHTML = '';
-            listViewWindow.style.display = 'block';
-            listViewTitle.textContent = "Variants for " + enzymeGroup;
-
-            // Extract variants matching chosen enzyme criteria
-            let matchingVariantsSet = new Set();
-            matrixDataset.forEach(row => {
-                if (row["Enzyme"] === enzymeGroup && row["Variant Name/ Symbol"]) {
-                    matchingVariantsSet.add(row["Variant Name/ Symbol"]);
-                }
-            });
-
-            let uniqueVariantsList = Array.from(matchingVariantsSet).sort();
-
-            if (enzymeGroup === "Beta-lactamase") {
-                // Group by prefix rule from list.php
-                let structuralGroups = {};
-                uniqueVariantsList.forEach(variant => {
-                    let groupKey = variant.startsWith("CAR") ? "CARB" : variant.substring(0, 3);
-                    if (!structuralGroups[groupKey]) {
-                        structuralGroups[groupKey] = [];
-                    }
-                    structuralGroups[groupKey].push(variant);
-                });
-
-                // Render each group container card block
-                Object.keys(structuralGroups).forEach(groupKey => {
-                    const groupCard = document.createElement('div');
-                    groupCard.className = 'group-container';
-                    groupCard.innerHTML = `<div class="group-title">${groupKey}</div>`;
-                    
-                    const boxesContainer = document.createElement('div');
-                    boxesContainer.className = 'variants-container';
-                    
-                    structuralGroups[groupKey].forEach(variant => {
-                        const box = document.createElement('div');
-                        box.className = 'variant-box';
-                        box.textContent = variant;
-                        box.onclick = () => executeDisplayRender(variant);
-                        boxesContainer.appendChild(box);
-                    });
-                    
-                    groupCard.appendChild(boxesContainer);
-                    listViewContent.appendChild(groupCard);
-                });
-            } else {
-                // Non beta-lactamase fallback render single flat panel container card matching list.php layout choices
-                const flatGroupCard = document.createElement('div');
-                flatGroupCard.className = 'group-container';
-                flatGroupCard.innerHTML = `<div class="group-title">Variants</div>`;
-                
-                const boxesContainer = document.createElement('div');
-                boxesContainer.className = 'variants-container';
-                
-                uniqueVariantsList.forEach(variant => {
-                    const box = document.createElement('div');
-                    box.className = 'variant-box';
-                    box.textContent = variant;
-                    box.onclick = () => executeDisplayRender(variant);
-                    boxesContainer.appendChild(box);
-                });
-                
-                flatGroupCard.appendChild(boxesContainer);
-                listViewContent.appendChild(flatGroupCard);
-            }
+            matchingRetrievedContext = ""; // Evict contextual prompt tracking properties cleanly
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
@@ -699,96 +603,72 @@
             const backButtonZone = document.getElementById('back-button-zone');
             const leftColumnWrapper = document.getElementById('left-column-wrapper');
             
-            leftPaneResults.innerHTML = '';
-            rightSidebar.innerHTML = '';
-            backButtonZone.innerHTML = '';
-            rightSidebar.style.display = 'none';
-            leftColumnWrapper.className = 'results-left-column';
+            leftPaneResults.innerHTML = ''; rightSidebar.innerHTML = ''; backButtonZone.innerHTML = '';
+            rightSidebar.style.display = 'none'; leftColumnWrapper.className = 'results-left-column';
 
-            if (!searchKeyString) {
-                resetToHome();
-                return;
-            }
-
+            if (!searchKeyString) { resetToHome(); return; }
             document.getElementById('default-info-view').style.display = 'none';
             document.getElementById('list-view-container').style.display = 'none';
-            blastContainer.style.display = 'none'; 
-            mainLayoutWindow.style.display = 'flex';
+            blastContainer.style.display = 'none'; mainLayoutWindow.style.display = 'flex';
 
             backButtonZone.innerHTML = `<button class="back-button" onclick="resetToHome(event)">&larr; Go Back to Overview</button>`;
-
             const operationalQuery = searchKeyString.toLowerCase();
             
             const matchesResultPool = matrixDataset.filter(row => {
-                const targetOrganism = row["Organism"] || "";
-                const targetVariant = row["Variant Name/ Symbol"] || "";
-                const targetProtein = row["Protein ID"] || "";
-                const targetEnzyme = row["Enzyme"] || "";
-                return targetOrganism.toLowerCase().includes(operationalQuery) ||
-                       targetVariant.toLowerCase().includes(operationalQuery) ||
-                       targetProtein.toLowerCase().includes(operationalQuery) ||
-                       targetEnzyme.toLowerCase().includes(operationalQuery);
+                return (row["Organism"] || "").toLowerCase().includes(operationalQuery) ||
+                       (row["Variant Name/ Symbol"] || "").toLowerCase().includes(operationalQuery) ||
+                       (row["Protein ID"] || "").toLowerCase().includes(operationalQuery) ||
+                       (row["Enzyme"] || "").toLowerCase().includes(operationalQuery);
             });
 
             if (matchesResultPool.length === 0) {
-                leftPaneResults.innerHTML = `<div style='font-family: Arial; font-size: 16px; margin-top: 20px;'>No results found for '${searchKeyString}' in columns 'Organism', 'Variant Name/ Symbol', 'Protein ID', or 'Enzyme'.</div>`;
+                leftPaneResults.innerHTML = `<div style='font-family: Arial; font-size: 16px; margin-top: 20px;'>No results found for '${searchKeyString}'.</div>`;
                 return;
             }
 
-            let resultsHTMLBlock = '';
-            let assignedTaxID = '';
+            // CRITICAL RAG STEP: Serialize rows directly into a clear text layout context for the chat engine module
+            matchingRetrievedContext = "CURRENT DATABASE MATCHES:\n" + matchesResultPool.map((row, i) => {
+                return `[Entry ${i+1}]\n` + Object.entries(row)
+                    .filter(([k]) => k !== "PhotoFilename" && !k.toLowerCase().includes("fasta"))
+                    .map(([k, v]) => `${k}: ${v}`).join('\n');
+            }).join('\n\n');
+
+            let resultsHTMLBlock = ''; let assignedTaxID = '';
 
             matchesResultPool.forEach((row, individualIdx) => {
                 if (row["TaxID"]) { assignedTaxID = row["TaxID"]; }
-
                 resultsHTMLBlock += `<div class="result-card">`;
 
                 sheetHeadings.forEach(headingKey => {
                     if (headingKey === "PhotoFilename") return; 
-
-                    let coreValue = row[headingKey] || '';
-                    let modifiedHeadingDisplay = headingKey.replace(/:$/, ''); 
+                    let coreValue = row[headingKey] || ''; let modifiedHeadingDisplay = headingKey.replace(/:$/, ''); 
 
                     if (displayHeadingIncludesFASTA(modifiedHeadingDisplay)) {
-                        const sequenceElementId = `seq-block-${individualIdx}-${modifiedHeadingDisplay.toLowerCase().replace(/\s+/g, '-')}`;
-                        
+                        const sequenceElementId = `seq-block-${individualIdx}-${modifiedHeadingDisplay.toLowerCase().replace(/[\s_\-]/g, '-')}`;
                         resultsHTMLBlock += `
                             <div style='margin-bottom: 4px;'><strong>${modifiedHeadingDisplay}:</strong>
                                 <div style='display: inline-block; border: 1px solid #ccc; padding: 10px; margin-top: 5px; margin-bottom: 10px; max-width: 100%; width: 100%; box-sizing: border-box; background-color: #fff;'>
                                     <pre id='${sequenceElementId}' style='white-space: pre-wrap; font-family: monospace; font-size: 14px; overflow-y: auto; max-height: 200px; word-wrap: break-word; margin: 0 0 10px 0; width: 100%; max-width: 850px;'>${coreValue}</pre>
                                     <button type='button' onclick='CopyToClipboard("${sequenceElementId}")' style='font-weight: bold; font-family: Arial; color: #204060; background-color: #add8e6; padding: 8px 12px; border-radius: 5px; border: none; cursor: pointer;'>COPY</button>
                                 </div>
-                            </div>
-                        `;
-                    }
-                    else {
-                        if (isTaxonomicField(modifiedHeadingDisplay)) {
-                            coreValue = `<em style='font-family: "Times New Roman", Times, serif; font-size: 16px;'>${coreValue}</em>`;
-                        }
-                        else if (modifiedHeadingDisplay === 'Protein ID') {
-                            coreValue = `<a href="http://www.ncbi.nlm.nih.gov/protein/${coreValue}" target="_blank" style='font-family: "Times New Roman", Times, serif; font-size: 16px; color: #0066cc;'>${coreValue}</a>`;
-                        }
-                        else if (modifiedHeadingDisplay === 'Reference (PMID)') {
-                            coreValue = `<a href="https://pubmed.ncbi.nlm.nih.gov/${coreValue}" target="_blank" style='font-family: "Times New Roman", Times, serif; font-size: 16px; color: #0066cc;'>${coreValue}</a>`;
-                        }
+                            </div>`;
+                    } else {
+                        if (isTaxonomicField(modifiedHeadingDisplay)) { coreValue = `<em>${coreValue}</em>`; }
+                        else if (modifiedHeadingDisplay === 'Protein ID') { coreValue = `<a href="http://www.ncbi.nlm.nih.gov/protein/${coreValue}" target="_blank" style="color: #0066cc;">${coreValue}</a>`; }
+                        else if (modifiedHeadingDisplay === 'Reference (PMID)') { coreValue = `<a href="https://pubmed.ncbi.nlm.nih.gov/${coreValue}" target="_blank" style="color: #0066cc;">${coreValue}</a>`; }
                         resultsHTMLBlock += `<div style='margin-bottom: 4px;'><strong>${modifiedHeadingDisplay}:</strong> ${coreValue}</div>`;
                     }
                 });
 
                 if (row["Protein ID"]) {
-                    const ncbiBlastTarget = `https://blast.ncbi.nlm.nih.gov/Blast.cgi?PROGRAM=blastp&PAGE_TYPE=BlastSearch&SHOW_DEFAULTS=on&QUERY=${encodeURIComponent(row["Protein ID"])}`;
-                    const uniProtTarget = `https://www.uniprot.org/uniprotkb?query=${encodeURIComponent(row["Protein ID"])}`;
-                    
                     resultsHTMLBlock += `
                         <div style="margin-top: 20px; text-align: left; display: inline-block; margin-right: 10px;">
-                            <a href="${ncbiBlastTarget}" target="_blank" style="font-weight: bold; font-family: Arial; color: #204060; text-decoration: none; background-color: #add8e6; padding: 8px 12px; border-radius: 5px; font-size: 16px;">BLAST</a>
+                            <a href="https://blast.ncbi.nlm.nih.gov/Blast.cgi?PROGRAM=blastp&PAGE_TYPE=BlastSearch&SHOW_DEFAULTS=on&QUERY=${encodeURIComponent(row["Protein ID"])}" target="_blank" style="font-weight: bold; text-decoration: none; background-color: #add8e6; color: #204060; padding: 8px 12px; border-radius: 5px; font-size: 16px;">BLAST</a>
                         </div>
                         <div style="margin-top: 20px; text-align: left; display: inline-block; margin-right: 10px;">
-                            <a href="${uniProtTarget}" target="_blank" style="font-weight: bold; font-family: Arial; color: #204060; text-decoration: none; background-color: #add8e6; padding: 8px 12px; border-radius: 5px; font-size: 16px;">UniProtDB</a>
-                        </div>
-                    `;
+                            <a href="https://www.uniprot.org/uniprotkb?query=${encodeURIComponent(row["Protein ID"])}" target="_blank" style="font-weight: bold; text-decoration: none; background-color: #add8e6; color: #204060; padding: 8px 12px; border-radius: 5px; font-size: 16px;">UniProtDB</a>
+                        </div>`;
                 }
-
                 resultsHTMLBlock += `</div>`;
             });
 
@@ -797,40 +677,111 @@
             if (assignedTaxID) {
                 let relatedVariantsList = new Set();
                 matrixDataset.forEach(r => {
-                    if (r["TaxID"] === assignedTaxID && r["Variant Name/ Symbol"]) {
-                        relatedVariantsList.add(r["Variant Name/ Symbol"]);
-                    }
+                    if (r["TaxID"] === assignedTaxID && r["Variant Name/ Symbol"]) { relatedVariantsList.add(r["Variant Name/ Symbol"]); }
                 });
-
-                if (relatedVariantsList.size > 1) { // Ensure there are related genes besides itself
-                    leftColumnWrapper.className = 'results-left-column with-sidebar';
-                    rightSidebar.style.display = 'block';
-
-                    let sidebarHTML = `<div class="sidebar-box" style="width: 5cm; float: right; margin-left: 20px;"><strong>Related genes:</strong>`;
+                if (relatedVariantsList.size > 0) {
+                    leftColumnWrapper.className = 'results-left-column with-sidebar'; rightSidebar.style.display = 'block';
+                    let sidebarHTML = `<div class="sidebar-box"><strong>Related genes:</strong>`;
                     relatedVariantsList.forEach(variantName => {
-                        sidebarHTML += `<a href="#" onclick="event.preventDefault(); executeDisplayRender('${variantName}');">${variantName}</a>`;
+                        sidebarHTML += `<a href="#" onclick="event.preventDefault(); document.getElementById('searchQuery').value='${variantName}'; executeDisplayRender('${variantName}');">${variantName}</a>`;
                     });
-                    sidebarHTML += `</div>`;
-                    rightSidebar.innerHTML = sidebarHTML;
+                    sidebarHTML += `</div>`; rightSidebar.innerHTML = sidebarHTML;
                 }
             }
-
             window.scrollTo({ top: 0, behavior: 'smooth' });
+            appendBotChatMessage("Context updated! I am now analyzing the entries for: " + searchKeyString);
         }
 
         function displayHeadingIncludesFASTA(headingStr) {
-            return headingStr === "Protein Sequence (FASTAFormat)" || 
-                   headingStr === "Gene Sequence (FASTAFormat)" ||
-                   headingStr === "Protein Sequence (FASTA Format)" || 
-                   headingStr === "Gene Sequence (FASTA Format)";
+            let n = headingStr.toLowerCase().replace(/[\s_\-]/g, '');
+            return n === "fastagene" || n === "fastaprotein" || n === "proteinsequencefastaformat" || n === "genesequencefastaformat";
         }
 
         function isTaxonomicField(headingStr) {
-            return headingStr === "Organism" || 
-                   headingStr === "Organism (Genus)" || 
-                   headingStr === "Organism (Species)" || 
-                   headingStr === "Subspecies" || 
-                   headingStr === "Enzyme";
+            return headingStr === "Organism" || headingStr === "Organism (Genus)" || headingStr === "Organism (Species)" || headingStr === "Subspecies" || headingStr === "Enzyme";
+        }
+
+        /* --- EXCLUSIVE CLIENT-SIDE GENERATIVE RAG ORCHESTRATION PIPELINE ENGINE --- */
+        function configureApiKey() {
+            const fallbackTokenKey = prompt("Please insert your Gemini API Key here (stored fully hidden and secure locally inside localStorage):");
+            if (fallbackTokenKey) { localStorage.setItem('gemini_rag_token', fallbackTokenKey); }
+        }
+
+        function appendUserChatMessage(text) {
+            const box = document.getElementById('chatMessages');
+            const msg = document.createElement('div'); msg.className = 'message user'; msg.textContent = text;
+            box.appendChild(msg); box.scrollTop = box.scrollHeight;
+        }
+
+        function appendBotChatMessage(text) {
+            const box = document.getElementById('chatMessages');
+            const msg = document.createElement('div'); msg.className = 'message bot'; msg.textContent = text;
+            box.appendChild(msg); box.scrollTop = box.scrollHeight;
+        }
+
+        async function executeChatGeneration() {
+            const inputField = document.getElementById('chatInput');
+            const queryPrompt = inputField.value.trim();
+            if (!queryPrompt) return;
+
+            appendUserChatMessage(queryPrompt);
+            inputField.value = "";
+
+            const activeSecretToken = localStorage.getItem('gemini_rag_token');
+            if (!activeSecretToken) {
+                appendBotChatMessage("API Key missing! Please click 'API Key' in the chat header to link your Gemini execution token.");
+                return;
+            }
+
+            // Fallback default system profile context bounds if no explicit layout cards are active
+            let activeContextBlock = matchingRetrievedContext;
+            if (!activeContextBlock) {
+                activeContextBlock = "No specific entry search context loaded. Base your answers broadly on general bacteriology antibiotic resistome guidelines.";
+            }
+
+            appendBotChatMessage("Analyzing structural dataset coordinates...");
+
+            try {
+                // Secure serverless endpoint configuration routing straight to Gemini 1.5 Flash
+                const apiEndpointUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${activeSecretToken}`;
+                
+                const response = await fetch(apiEndpointUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{
+                            parts: [{
+                                text: `You are an expert AMR curation chatbot assistant profile for the AMR Hunters database system. 
+                                Answer the user question accurately using only the validated database context metrics provided.
+                                If the context answers it, synthesize the metrics cleanly. Keep answers concise, highly specific, and clear.
+                                
+                                CURRENT RESOURCE DATA CARD CONTEXT:
+                                ${activeContextBlock}
+                                
+                                USER INQUIRY QUESTION:
+                                ${queryPrompt}`
+                            }]
+                        }]
+                    })
+                });
+
+                if (!response.ok) throw new Error("API call returned an error state validation matrix response.");
+                const outputJsonPayload = await response.json();
+                
+                // Parse out response string properties securely from standard JSON mapping trees
+                const generatedReplyText = outputJsonPayload.candidates[0].content.parts[0].text;
+                
+                // Remove the "Analyzing..." placeholder before appending the text reply
+                const messageContainer = document.getElementById('chatMessages');
+                messageContainer.removeChild(messageContainer.lastChild);
+                
+                appendBotChatMessage(generatedReplyText);
+            } catch (err) {
+                console.error(err);
+                const messageContainer = document.getElementById('chatMessages');
+                messageContainer.removeChild(messageContainer.lastChild);
+                appendBotChatMessage("RAG synthesis execution crashed. Confirm token validation properties or try reloading.");
+            }
         }
 
         function CopyToClipboard(elementId) {
@@ -846,60 +797,46 @@
             alertModalOverlay.innerHTML = 'Copied to clipboard!';
             alertModalOverlay.style.cssText = 'position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); padding: 10px 20px; background-color: rgba(0, 0, 0, 0.7); color: #fff; font-family: Arial; font-size: 16px; border-radius: 5px; z-index: 9999;';
             document.body.appendChild(alertModalOverlay);
-            setTimeout(function () {
-                alertModalOverlay.parentNode.removeChild(alertModalOverlay);
-            }, 500);
+            setTimeout(function () { alertModalOverlay.parentNode.removeChild(alertModalOverlay); }, 500);
         }
 
         function handleFileFastaUpload(event) {
             const uploadedFileRef = event.target.files[0];
             if (!uploadedFileRef) return;
             const fileReader = new FileReader();
-            fileReader.onload = function(e) {
-                document.getElementById('fastaInput').value = e.target.result;
-            };
+            fileReader.onload = function(e) { document.getElementById('fastaInput').value = e.target.result; };
             fileReader.readAsText(uploadedFileRef);
         }
 
         function runSequenceBlast(event) {
             event.preventDefault();
             const sequenceTextPayload = document.getElementById('fastaInput').value.trim();
-            if(!sequenceTextPayload) {
-                alert("Please paste or upload gene sequences in FASTA format here.");
-                return;
-            }
-            const forwardBlastEngineUrl = `https://blast.ncbi.nlm.nih.gov/Blast.cgi?PROGRAM=blastn&PAGE_TYPE=BlastSearch&QUERY=${encodeURIComponent(sequenceTextPayload)}`;
-            window.open(forwardBlastEngineUrl, '_blank');
+            if(!sequenceTextPayload) { alert("Please paste or upload gene sequences in FASTA format."); return; }
+            window.open(`https://blast.ncbi.nlm.nih.gov/Blast.cgi?PROGRAM=blastn&PAGE_TYPE=BlastSearch&QUERY=${encodeURIComponent(sequenceTextPayload)}`, '_blank');
         }
 
-        // Advanced target verification map to preserve open configurations across native elements
         document.addEventListener('click', function(event) {
             const toggleBtn = document.getElementById('toggleDownloadBtn');
             const downloadContainer = document.getElementById('dropdownContainer');
             const searchInput = document.getElementById('searchQuery');
             const autocompleteDropdown = document.getElementById('autocomplete-dropdown');
 
-            // 1. Evaluate Download UI Toggle Action Parameters
             if (event.target === toggleBtn) {
                 event.preventDefault();
                 const isDisplayed = downloadContainer.style.display === 'block';
                 downloadContainer.style.display = isDisplayed ? 'none' : 'block';
                 return;
             }
-
-            // 2. Safeguard Download Card Boundaries (Keeps card open during list selections)
             if (downloadContainer.style.display === 'block') {
-                if (downloadContainer.contains(event.target) || event.target.tagName === 'OPTION' || event.target.closest('#dropdownContainer')) {
-                    return; 
-                } else {
-                    downloadContainer.style.display = 'none'; 
-                }
+                if (downloadContainer.contains(event.target) || event.target.tagName === 'OPTION' || event.target.closest('#dropdownContainer')) { return; } 
+                else { downloadContainer.style.display = 'none'; }
             }
+            if (autocompleteDropdown.classList.contains('show') && event.target !== searchInput) { autocompleteDropdown.classList.remove('show'); }
+        });
 
-            // 3. Dismiss query auto-suggestion list overlay
-            if (autocompleteDropdown.classList.contains('show') && event.target !== searchInput) {
-                autocompleteDropdown.classList.remove('show');
-            }
+        // Add Enter key trigger configuration support directly on chat input area box fields
+        document.getElementById('chatInput').addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') { executeChatGeneration(); }
         });
 
         document.getElementById('downloadLink').addEventListener('click', function(event) {
@@ -908,8 +845,7 @@
             const downloadTriggerNode = document.createElement('a');
             downloadTriggerNode.setAttribute('href', selectedFileTarget);
             downloadTriggerNode.setAttribute('download', selectedFileTarget);
-            document.body.appendChild(downloadTriggerNode);
-            downloadTriggerNode.click();
+            document.body.appendChild(downloadTriggerNode); downloadTriggerNode.click();
             document.body.removeChild(downloadTriggerNode);
         });
 
