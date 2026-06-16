@@ -1107,35 +1107,4 @@
             }
 
             if (!botAnswerHTML) {
-                botAnswerHTML = `I searched the local matrix dataset for "${rawUserQuery}" but couldn't find an explicit match. Try typing "list beta-lactamase genes" or inputting a specific reference symbol like "SHV-1".`;
-            }
-
-            setTimeout(() => {
-                appendBotChatMessage(botAnswerHTML);
-            }, 50);
-        }
-
-        // Standard event controllers
-        document.addEventListener('click', function(event) {
-            const toggleBtn = document.getElementById('toggleDownloadBtn');
-            const downloadContainer = document.getElementById('dropdownContainer');
-            const searchInput = document.getElementById('searchQuery');
-            const autocompleteDropdown = document.getElementById('autocomplete-dropdown');
-
-            if (event.target === toggleBtn) {
-                event.preventDefault();
-                const isDisplayed = downloadContainer.style.display === 'block';
-                downloadContainer.style.display = isDisplayed ? 'none' : 'block';
-                return;
-            }
-            if (downloadContainer.style.display === 'block') {
-                if (downloadContainer.contains(event.target) || event.target.tagName === 'OPTION' || event.target.closest('#dropdownContainer')) { return; } 
-                else { downloadContainer.style.display = 'none'; }
-            }
-            if (autocompleteDropdown.classList.contains('show') && event.target !== searchInput) { autocompleteDropdown.classList.remove('show'); }
-        });
-
-        window.addEventListener('DOMContentLoaded', bootAppPipeline);
-    </script>
-</body>
-</html>
+                botAnswerHTML = `I searched the
