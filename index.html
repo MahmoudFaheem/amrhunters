@@ -398,6 +398,12 @@
             z-index: 2000;
             overflow: hidden;
             font-family: Arial, sans-serif;
+            transition: height 0.3s ease; /* Enables smooth slide animations */
+        }
+
+        /* MODIFIED: Collapsed modifier class sets layout constraints to hide panel core */
+        .chat-widget.collapsed {
+            height: 45px; 
         }
 
         .chat-header {
@@ -407,8 +413,10 @@
             font-weight: bold;
             font-size: 14px;
             display: flex;
-            justify-between: space-between;
+            justify-content: space-between;
             align-items: center;
+            cursor: pointer; /* Explicitly visually declares target click interface status */
+            user-select: none;
         }
 
         .chat-messages {
@@ -587,11 +595,12 @@
     </div>
 
     <div class="chat-widget" id="chatWidget">
-        <div class="chat-header">
+        <div class="chat-header" onclick="toggleChatWidget()">
             <span>AMR Hunters Assistant (Instant Retrieval)</span>
+            <span id="chatToggleIcon" style="font-size: 16px; font-weight: bold;">&minus;</span>
         </div>
         <div class="chat-messages" id="chatMessages">
-            <div class="message bot">Hello! I am your real-time data retrieval assistant. Ask me to list variant categories or type a specific gene symbol (like "ACC-1") to pull details from the records immediately.</div>
+            <div class="message bot">Hello! I am your real-time data retrieval assistant. Ask me to list variant categories or type a specific gene symbol (like "ACC-1") to pull details from the records immediately without any API keys!</div>
         </div>
         <div class="chat-input-area">
             <input type="text" id="chatInput" placeholder="Ask a question about database genes...">
@@ -952,6 +961,14 @@
             const box = document.getElementById('chatMessages');
             const msg = document.createElement('div'); msg.className = 'message bot'; msg.innerHTML = htmlText;
             box.appendChild(msg); box.scrollTop = box.scrollHeight;
+        }
+
+        // ADDED: UI state manager to dynamically control the collapsible drawer visibility classes
+        function toggleChatWidget() {
+            const widgetNode = document.getElementById('chatWidget');
+            const iconNode = document.getElementById('chatToggleIcon');
+            const isCollapsed = widgetNode.classList.toggle('collapsed');
+            iconNode.innerHTML = isCollapsed ? '&#9650;' : '&minus;'; // Toggles indicator symbol between arrow-up and minus
         }
 
         function executeChatGeneration() {
