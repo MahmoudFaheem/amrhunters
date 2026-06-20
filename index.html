@@ -249,25 +249,6 @@
             background-color: #0B5BD7;
         }
 
-        /* Special Emerald Branding for AI Pipeline Deep-linking Button */
-        .ai-fold-button {
-            padding: 10px 20px;
-            background-color: #10b981;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
-            display: inline-block;
-            text-decoration: none;
-            font-family: Arial, sans-serif;
-            text-align: center;
-        }
-        .ai-fold-button:hover {
-            background-color: #059669;
-        }
-
         /* Native Navigation Back Controller Link */
         .back-button {
             background-color: #2C3539;
@@ -421,7 +402,7 @@
             z-index: 2000;
             overflow: hidden;
             font-family: Arial, sans-serif;
-            transition: height 0.3s ease, width 0.3s ease, left 0.3s ease, right 0.3s ease; 
+            transition: height 0.3s ease, width 0.3s ease, left 0.3s ease, right 0.3s ease; /* Enables smooth fluid mobile scaling */
         }
 
         .chat-widget.collapsed {
@@ -541,7 +522,11 @@
             margin-top: 10px;
         }
 
+        /* ==========================================================================
+           CRITICAL MOBILE RESPONSIVE MEDIA QUERIES BREAKPOINTS
+           ========================================================================== */
         @media (max-width: 768px) {
+            /* 1. Reset Fixed Downloader to absolute inline banner stacking flow */
             .download-button {
                 position: static;
                 display: block;
@@ -555,6 +540,7 @@
                 transform: translateX(50%);
             }
 
+            /* 2. Scale primary input frameworks to optimize small viewports */
             .search-container input[type="text"],
             .upload-container textarea {
                 width: 100% !important;
@@ -570,6 +556,7 @@
                 width: 100%;
             }
 
+            /* 3. Convert Split Columns to safe vertical data list stacks */
             .search-wrapper-layout {
                 flex-direction: column;
             }
@@ -584,19 +571,21 @@
                 margin-top: 20px;
             }
 
+            /* 4. Fluid Chat Widget alignment properties to avoid side-bleeding */
             .chat-widget {
                 width: calc(100% - 40px);
                 right: 20px;
                 left: 20px;
             }
 
+            /* 5. Center align section menu clusters */
             .action-buttons {
                 display: flex;
                 flex-direction: column;
                 gap: 10px;
             }
 
-            .action-button, .ai-fold-button {
+            .action-button {
                 margin-right: 0;
                 width: 100%;
                 text-align: center;
@@ -939,10 +928,6 @@
 
                 resultsHTMLBlock += `<div class="result-card">`;
 
-                let extractedProteinID = row["Protein ID"] || "";
-                let extractedFastaSequence = "";
-                let variantNameSymbol = row["Variant Name/ Symbol"] || "Unknown Isolate";
-
                 sheetHeadings.forEach(headingKey => {
                     if (headingKey === "PhotoFilename") return; 
 
@@ -952,11 +937,6 @@
                     if (displayHeadingIncludesFASTA(modifiedHeadingDisplay)) {
                         const sequenceElementId = `seq-block-${individualIdx}-${modifiedHeadingDisplay.toLowerCase().replace(/[\s_\-]/g, '-')}`;
                         
-                        // Capture the sequence string to use for ESMFold fallback if needed
-                        if (modifiedHeadingDisplay.toLowerCase().includes("protein")) {
-                            extractedFastaSequence = coreValue;
-                        }
-
                         resultsHTMLBlock += `
                             <div style='margin-bottom: 4px;'><strong>${modifiedHeadingDisplay}:</strong>
                                 <div style='display: inline-block; border: 1px solid #ccc; padding: 10px; margin-top: 5px; margin-bottom: 10px; max-width: 100%; width: 100%; box-sizing: border-box; background-color: #fff;'>
@@ -980,24 +960,14 @@
                     }
                 });
 
-                // INTEGRATION GATEWAY: Package payloads to post out directly to predict.php
-                // Employs smart engine routing: utilizes standard AlphaFold IDs or drops raw strings into ESMFold
-                let predictionPayloadValue = extractedProteinID ? extractedProteinID : extractedFastaSequence;
-
-                if (predictionPayloadValue) {
-                    const ncbiBlastTarget = `https://blast.ncbi.nlm.nih.gov/Blast.cgi?PROGRAM=blastp&PAGE_TYPE=BlastSearch&SHOW_DEFAULTS=on&QUERY=${encodeURIComponent(extractedProteinID)}`;
-                    const uniProtTarget = `https://www.uniprot.org/uniprotkb?query=${encodeURIComponent(extractedProteinID)}`;
+                if (row["Protein ID"]) {
+                    const ncbiBlastTarget = `https://blast.ncbi.nlm.nih.gov/Blast.cgi?PROGRAM=blastp&PAGE_TYPE=BlastSearch&SHOW_DEFAULTS=on&QUERY=${encodeURIComponent(row["Protein ID"])}`;
+                    const uniProtTarget = `https://www.uniprot.org/uniprotkb?query=${encodeURIComponent(row["Protein ID"])}`;
                     
                     resultsHTMLBlock += `
-                        <div style="margin-top: 15px; text-align: left; display: flex; flex-wrap: wrap; gap: 10px; width: 100%;">
-                            <a href="${ncbiBlastTarget}" target="_blank" class="action-button" style="flex: 1; min-width: 100px; text-align:center;">BLAST</a>
-                            <a href="${uniProtTarget}" target="_blank" class="action-button" style="flex: 1; min-width: 100px; text-align:center;">UniProtDB</a>
-                            
-                            <form action="predict.php" method="POST" target="_blank" style="flex: 2; min-width: 200px; margin: 0; padding: 0;">
-                                <input type="hidden" name="isolate_name" value="${variantNameSymbol.replace(/"/g, '&quot;')}">
-                                <input type="hidden" name="bacterial_sequence" value="${predictionPayloadValue.replace(/"/g, '&quot;')}">
-                                <button type="submit" class="ai-fold-button" style="width: 100%;">⚡ Run AI 3D Folding (BioAMR)</button>
-                            </form>
+                        <div style="margin-top: 10px; text-align: left; display: inline-block; margin-right: 10px; width: 100%;">
+                            <a href="${ncbiBlastTarget}" target="_blank" class="action-button" style="text-align:center; display:block; margin-bottom:10px;">BLAST</a>
+                            <a href="${uniProtTarget}" target="_blank" class="action-button" style="text-align:center; display:block;">UniProtDB</a>
                         </div>
                     `;
                 }
@@ -1040,6 +1010,7 @@
                    normalize === "genesequencefastaformat";
         }
 
+        // FIXED: Swapped typo 'fn' back to standard 'function' mapping rule to resolve silent compilation errors
         function isTaxonomicField(headingStr) {
             return headingStr === "Organism" || 
                    headingStr === "Organism (Genus)" || 
@@ -1048,6 +1019,7 @@
                    headingStr === "Enzyme";
         }
 
+        /* --- EXCLUSIVE HIGH-SPEED CLIENT-SIDE RETRIEVAL ENGINE PROCESSOR --- */
         function appendUserChatMessage(text) {
             const box = document.getElementById('chatMessages');
             const msg = document.createElement('div'); msg.className = 'message user'; msg.textContent = text;
@@ -1144,6 +1116,7 @@
             }, 50);
         }
 
+        // FIXED: Upgraded clipboard copying parser engine using modern Navigator context parameters
         function CopyToClipboard(elementId) {
             const textToCopyNode = document.getElementById(elementId);
             if (!textToCopyNode) return;
@@ -1162,6 +1135,7 @@
                     .then(triggerSuccessToast)
                     .catch(err => console.error("Clipboard API failure, trying fallback:", err));
             } else {
+                // Invisible semantic layout textarea block fallback for older environments
                 const fallbackTextArea = document.createElement("textarea");
                 fallbackTextArea.value = textValue;
                 fallbackTextArea.style.position = "fixed"; 
